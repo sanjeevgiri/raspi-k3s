@@ -29,4 +29,50 @@ Follow steps outlined in section 1.1, with one minor modification > `hostname no
 ### 1.4 Creating an image for k8s worder2 node usng rasbperypi imager
 Follow steps outlined in section 1.1, with one minor modification > `hostname node2` 
 
+### 1.5 Configure SSH Client
+
+#### 1.5.1 Configure DHCP IP Reservations
+
+Example using my subnet settings
+
+| Device | IP Address |
+| --- | --- |
+| NFS Server | 192.168.86.10 |
+| k3s main | 192.168.86.100 |
+| k3s node1 | 192.168.86.110 |
+| k3s node2 | 192.168.86.111 |
+
+#### 1.5.2 SSH Configurations
+
+Sample ~/.ssh/config file
+
+```shell
+Host *
+	StrictHostKeyChecking no
+Host main.ayuraya.com ayuraya
+	IdentityFile ~/.ssh/ayuraya/id_rsa
+Host node1.ayuraya.com node1
+	IdentityFile ~/.ssh/ayuraya/id_rsa
+Host node2.ayuraya.com node2
+	IdentityFile ~/.ssh/ayuraya/id_rsa	
+Host nfs.ayuraya.com nfs
+	IdentityFile ~/.ssh/ayuraya/id_rsa
+
+```
+
+#### 1.5.3 SSH Key pair
+Ensure that the public/private key pair for the key used for image generation exists in the appropriate location.
+Example - IdentityFile `~/.ssh/ayuraya/id_rsa`
+
+#### 1.5.4 Ssh into servers
+```shell
+ssh nfs@nfs
+ssh ayuraya@ayuraya
+ssh node1@node1
+ssh node2@node2
+```
+
+## 2 NFS Setup
+
+### Network File Share Server Setup
 

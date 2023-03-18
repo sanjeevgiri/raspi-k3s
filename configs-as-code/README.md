@@ -26,5 +26,7 @@ ssh nfs@nfs
 chmod 400 id_rsa
 chmod 400 id_rsa.pub
 git clone git@github.com:sanjeevgiri/raspi-k3s.git
-#
+
+# Ping
+ansible all -m ping -i ./inventory/hosts.ini
 ```

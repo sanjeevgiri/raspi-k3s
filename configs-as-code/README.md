@@ -19,8 +19,12 @@ sudo apt install ansible
 sudo apt install git-all
 sudo reboot
 
-# Hop back in
+# Copy bootstrap keys from bastion into control node for setup
+scp id_rsa nfs@nfs:~/.ssh
+scp id_rsa.pub nfs@nfs:~/.ssh
 ssh nfs@nfs
-
+chmod 400 id_rsa
+chmod 400 id_rsa.pub
+git clone git@github.com:sanjeevgiri/raspi-k3s.git
 #
 ```

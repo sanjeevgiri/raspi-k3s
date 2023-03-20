@@ -1,0 +1,7 @@
+---
+
+hosts: ansible_control_node
+gather_facts: true
+become: yes
+roles:
+  - role: roles/ansible_nodes

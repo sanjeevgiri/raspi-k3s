@@ -30,3 +30,10 @@ git clone git@github.com:sanjeevgiri/raspi-k3s.git
 # Ping
 ansible all -m ping -i ./inventory/hosts.ini
 ```
+
+
+# Scratch Pad
+```shell
+ansible-playbook foo.yml --check
+
+```

@@ -34,6 +34,10 @@ ansible all -m ping -i ./inventory/hosts.ini
 
 # Scratch Pad
 ```shell
-ansible-playbook site.yml --check -i ./inventory/hosts.ini
+# Check playbook
+ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "state=present"
+
+# Pass variables during playbook execution
+ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "@values.yml"
 
 ```

@@ -34,6 +34,6 @@ ansible all -m ping -i ./inventory/hosts.ini
 
 # Scratch Pad
 ```shell
-ansible-playbook foo.yml --check
+ansible-playbook site.yml --check -i ./inventory/hosts.ini
 
 ```

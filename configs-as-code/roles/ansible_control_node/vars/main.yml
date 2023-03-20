@@ -1,0 +1,2 @@
+---
+ansible_control_node_state: present

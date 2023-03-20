@@ -1,7 +1,8 @@
 ---
-- hosts: ansible_control_node
+- hosts: ansible_nodes
   gather_facts: true
   become: yes
   roles:
     - role: roles/ansible_nodes
       state: present
+    - role: roles/

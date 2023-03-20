@@ -35,9 +35,15 @@ ansible all -m ping -i ./inventory/hosts.ini
 # Scratch Pad
 ```shell
 # Check playbook
-ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "state=present"
+ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "ansible_nodes_state=present"
+ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "ansible_nodes_state=absent"
 
 # Pass variables during playbook execution
 ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "@values.yml"
 
 ```
+
+# What next
+- Specify UID and GID while creating ansible users and groups
+- Create open ssh keypair in control plane
+- Specify authorized key for ansible managed nodes

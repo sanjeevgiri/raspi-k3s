@@ -2,11 +2,11 @@
 - name: Ansible user group
   ansible.builtin.group:
     name: ansible
-    state: '{{ state }}'
+    state: '{{ ansible_nodes_state }}'
 
 - name: Ansible user
   ansible.builtin.user:
     name: ansible
     shell: /bin/bash
     groups: ansible
-    state: '{{ state }}'
+    state: '{{ ansible_nodes_state }}'

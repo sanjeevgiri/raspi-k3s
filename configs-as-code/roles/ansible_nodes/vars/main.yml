@@ -1,2 +1,2 @@
 ---
-state: present
+ansible_nodes_state: present

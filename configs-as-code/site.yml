@@ -4,3 +4,4 @@
   become: yes
   roles:
     - role: roles/ansible_nodes
+      state: present

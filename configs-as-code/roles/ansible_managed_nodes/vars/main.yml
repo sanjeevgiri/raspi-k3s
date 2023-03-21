@@ -1,2 +1,8 @@
 ---
-ansible_managed_nodes_state: present
+# AMN - Ansible managed nodes
+amn_state: present
+amn_username: ansible
+amn_userhome: /home/ansible
+amn_uid: 2000
+amn_groupname: ansible
+amn_gid: 2000

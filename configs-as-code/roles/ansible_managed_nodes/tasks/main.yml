@@ -1,14 +1,17 @@
 ---
 - name: Ansible user group
   ansible.builtin.group:
-    name: ansible
-    state: '{{ansible_managed_nodes_state}}'
+    name: '{{amn_groupname}}'
+    gid: '{{amn_gid}}'
+    state: '{{amn_state}}'
 
 - name: Ansible user
   ansible.builtin.user:
-    name: ansible
+    name: '{{amn_username}}'
+    uid: '{{amn_uid}}'
     shell: /bin/bash
-    groups: ansible
-    state: '{{ansible_managed_nodes_state}}'
+    groups: '{{amn_groupname}}'
+    home: '{{amn_userhome}}'
+    state: '{{amn_state}}'
 
 

@@ -3,8 +3,16 @@
   ansible.builtin.import_role:
     name: ansible_managed_nodes
   vars:
-    ansible_managed_nodes_state: '{{ansible_control_node_state}}'
-#- name: Generate an OpenSSH keypair with a different algorithm (dsa)
-#  community.crypto.openssh_keypair:
-#    path: /tmp/id_ssh_dsa
-#    type: eddsa
+    amn_state: '{{acn_state}}'
+    amn_uid: '{{acn_uid}}'
+    amn_username: '{{acn_username}}'
+    amn_userhome: '{{acn_userhome}}'
+    amn_gid: '{{acn_gid}}'
+    amn_groupname: '{{acn_groupname}}'
+
+- name: Generate an OpenSSH keypair with a different algorithm (dsa)
+  community.crypto.openssh_keypair:
+    path: '{{acn_userhome}}'
+    owner: '{{acn_username}}'
+    group: '{{acn_groupname}}'
+    type: eddsa

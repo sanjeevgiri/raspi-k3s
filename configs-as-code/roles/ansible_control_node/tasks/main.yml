@@ -1,1 +1,10 @@
 ---
+- name: Run tasks/other.yaml instead of 'main'
+  ansible.builtin.import_role:
+    name: ansible_nodes
+  vars:
+    ansible_managed_nodes_state: '{{ansible_control_node_state}}'
+#- name: Generate an OpenSSH keypair with a different algorithm (dsa)
+#  community.crypto.openssh_keypair:
+#    path: /tmp/id_ssh_dsa
+#    type: eddsa

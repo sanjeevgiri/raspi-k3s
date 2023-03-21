@@ -3,6 +3,5 @@
   gather_facts: true
   become: yes
   roles:
-    - role: roles/ansible_nodes
-      state: present
-    - role: roles/
+    - role: roles/ansible_control_node
+      ansible_control_node: present

@@ -17,6 +17,14 @@
 - name: Create .ssh directory
   ansible.builtin.file:
     path: '{{amn_userhome}}/.ssh'
-    state: directory
+    state: 'directory'
     mode: '0755'
+    when: '{{amn_state}} == present'
+
+- name: Remove .ssh directory if requested
+  ansible.builtin.file:
+    path: '{{amn_userhome}}/.ssh'
+    state: 'absent'
+    mode: '0755'
+    when: '{{amn_state}} == absent'
 

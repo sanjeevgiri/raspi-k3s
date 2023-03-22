@@ -23,4 +23,4 @@
     owner: '{{acn_username}}'
     group: '{{acn_groupname}}'
     type: ed25519
-  when: ansible_user_ssh_dir.stat.isdir is defined and dir_to_check.stat.isdir
+  when: ansible_user_ssh_dir.stat.isdir is defined and ansible_user_ssh_dir.stat.isdir

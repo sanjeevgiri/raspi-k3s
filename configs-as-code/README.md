@@ -35,7 +35,7 @@ ansible all -m ping -i ./inventory/hosts.ini
 # Scratch Pad
 ```shell
 # Check playbook
-ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "ansible_control_node_state=present"
+ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "acn_state=present"
 ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "ansible_nodes_state=absent"
 
 # Pass variables during playbook execution

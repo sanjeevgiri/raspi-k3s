@@ -2,8 +2,8 @@
 - name: Ansible user and group
   include_tasks: ansible_user.yml
 
-- name: Set authorized key
-  ansible.posix.authorized_key:
-    user: '{{acn_username}}'
-    state: '{{acn_state}}'
-    key: '{{amn_authuser_pubkey}}'
+#- name: Set authorized key
+#  ansible.posix.authorized_key:
+#    user: '{{acn_username}}'
+#    state: '{{acn_state}}'
+#    key: '{{amn_authuser_pubkey}}'

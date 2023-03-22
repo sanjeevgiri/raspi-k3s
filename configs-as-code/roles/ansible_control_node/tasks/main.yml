@@ -15,4 +15,4 @@
     path: '{{acn_userhome}}'
     owner: '{{acn_username}}'
     group: '{{acn_groupname}}'
-    type: eddsa
+    type: ed25519

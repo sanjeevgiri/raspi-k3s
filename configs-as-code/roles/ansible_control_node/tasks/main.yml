@@ -2,6 +2,7 @@
 - name: Run tasks from main file in ansible managed node module
   ansible.builtin.import_role:
     name: ansible_managed_nodes
+    tasks_from: ansible_user
   vars:
     amn_uid: '{{acn_uid}}'
     amn_username: '{{acn_username}}'

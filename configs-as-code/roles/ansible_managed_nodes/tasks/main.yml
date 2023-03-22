@@ -7,3 +7,4 @@
     user: '{{amn_username}}'
     state: '{{amn_state}}'
     key: '{{amn_authuser_pubkey}}'
+  when:   amn_authuser_pubkey != ''

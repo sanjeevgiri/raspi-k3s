@@ -6,3 +6,4 @@ amn_userhome: /home/ansible
 amn_uid: 2000
 amn_groupname: ansible
 amn_gid: 2000
+amn_authuser_pubkey: ''

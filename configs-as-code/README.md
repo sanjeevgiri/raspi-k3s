@@ -38,14 +38,17 @@ ansible all -m ping -i ./inventory/hosts.ini
 ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "acn_state=present"
 ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "acn_state=absent"
 
+# Apply playbook
+ansible-playbook site.yml -i ./inventory/hosts.ini -e "acn_state=present"
+ansible-playbook site.yml -i ./inventory/hosts.ini -e "acn_state=absent"
+
 # Check control node
-sudo less /etc/passwd | ansible
-sudo less /etc/group | grep ansible
+sudo cat /etc/passwd | grep ansible
+sudo cat /etc/group | grep ansible
 ls -la /home/ansible/.ssh
 
 # Pass variables during playbook execution
 ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "@values.yml"
-
 ```
 
 # What next

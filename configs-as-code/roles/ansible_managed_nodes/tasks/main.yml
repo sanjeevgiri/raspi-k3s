@@ -19,3 +19,4 @@
     path: '{{amn_userhome}}/.ssh'
     state: "{{ (amn_state == 'present') | ternary('directory', 'absent') }}"
     mode: '0755'
+  become: yes

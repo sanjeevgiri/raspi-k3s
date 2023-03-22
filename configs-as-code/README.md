@@ -35,8 +35,8 @@ ansible all -m ping -i ./inventory/hosts.ini
 # Scratch Pad
 ```shell
 # Check playbook
-ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "acn_state=present"
-ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "acn_state=absent"
+ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "acn_state=present" -e "amn_state=present"
+ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "acn_state=absent" -e "amn_state=absent"
 
 # Apply playbook
 ansible-playbook site.yml -i ./inventory/hosts.ini -e "acn_state=present"

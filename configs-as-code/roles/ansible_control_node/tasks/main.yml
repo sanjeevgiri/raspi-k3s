@@ -17,7 +17,7 @@
   register: ansible_user_ssh_dir
 
 # For state - absent this file will be removed as a part of directory deletion
-- name: Generate an OpenSSH keypair with a different algorithm (dsa)
+- name: Generate an OpenSSH keypair using ed25519
   community.crypto.openssh_keypair:
     path: '{{acn_userhome}}/.ssh/id_rsa'
     owner: '{{acn_username}}'

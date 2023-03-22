@@ -15,4 +15,4 @@
     - role: roles/ansible_managed_nodes
       amn_state: present
       amn_username: ansible
-      amn_authuser_pubkey: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
+      amn_authuser_pubkey: "{{ (amn_state == 'present') | ternary(lookup('file', '/home/ansible/.ssh/id_rsa.pub'), '') }}"

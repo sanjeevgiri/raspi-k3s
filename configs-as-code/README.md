@@ -36,7 +36,12 @@ ansible all -m ping -i ./inventory/hosts.ini
 ```shell
 # Check playbook
 ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "acn_state=present"
-ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "ansible_nodes_state=absent"
+ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "acn_state=absent"
+
+# Check control node
+sudo less /etc/passwd | ansible
+sudo less /etc/group | grep ansible
+ls -la /home/ansible/.ssh
 
 # Pass variables during playbook execution
 ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "@values.yml"

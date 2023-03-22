@@ -13,7 +13,7 @@
 
 - name: Check if the directory exists
   ansible.builtin.stat:
-    path: '{{acn_userhome}}/.ssh/id_rsa'
+    path: '{{acn_userhome}}/.ssh'
   register: ansible_user_ssh_dir
 
 # For state - absent this file will be removed as a part of directory deletion

@@ -10,10 +10,11 @@
     amn_groupname: '{{acn_groupname}}'
     amn_state: '{{acn_state}}'
 
+# for absent this file will be removed as a part of directory deletion
 - name: Generate an OpenSSH keypair with a different algorithm (dsa)
   community.crypto.openssh_keypair:
     path: '{{acn_userhome}}/.ssh/id_rsa'
     owner: '{{acn_username}}'
     group: '{{acn_groupname}}'
     type: ed25519
-    when: "{{acn_state}} == 'present'" # for absent this file will be removed as a part of directory deletion
+  when: '{{acn_state}}' == 'present'

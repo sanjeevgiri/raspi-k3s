@@ -3,9 +3,14 @@
   include_tasks: ansible_user.yml
 
 # For deletions using state absent, this file will have been removed in the ansible_user tasks
+- name: Check if the directory exists
+  ansible.builtin.stat:
+    path: '{{acn_userhome}}/.ssh'
+  register: ansible_user_ssh_dir
+
 - name: Set authorized key
   ansible.posix.authorized_key:
     user: '{{amn_username}}'
     state: '{{amn_state}}'
     key: '{{amn_authuser_pubkey}}'
-  when: amn_state == 'present'
+  when: ansible_user_ssh_dir.stat.isdir is defined and ansible_user_ssh_dir.stat.isdir

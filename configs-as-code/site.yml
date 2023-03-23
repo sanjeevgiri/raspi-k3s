@@ -4,7 +4,7 @@
   become: yes
   roles:
     - role: roles/ansible_control_node
-      acn_state: '{{global_state}}'
+      acn_state: 'present'
       acn_username: ansible
 
 # The public key is generated in the control node under ansible home ssh dir
@@ -13,6 +13,6 @@
   become: yes
   roles:
     - role: roles/ansible_managed_nodes
-      amn_state: '{{global_state}}'
+      amn_state: 'present'
       amn_username: ansible
       amn_authuser_pubkey: lookup('first_found', dict(files=['/home/ansible/.ssh/id_rsa.pub'], skip=true)) | ternary(lookup('file', '/home/ansible/.ssh/id_rsa.pub'), '')

@@ -5,7 +5,7 @@
 # For deletions using state absent, this file will have been removed in the ansible_user tasks
 - name: Check if the directory exists
   ansible.builtin.stat:
-    path: '{{acn_userhome}}/.ssh'
+    path: '{{amn_userhome}}/.ssh'
   register: ansible_user_ssh_dir
 
 - name: Set authorized key

@@ -15,4 +15,5 @@
     - role: roles/ansible_managed_nodes
       amn_state: present
       amn_username: ansible
-      amn_authuser_pubkey: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub', default='') }}"
+      #amn_authuser_pubkey: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub', default='') }}"
+      amn_authuser_pubkey: lookup('first_found', dict(files=['/home/ansible/.ssh/id_rsa.pub'], skip=true)) | ternary(lookup('file', '/home/ansible/.ssh/id_rsa.pub'), '')

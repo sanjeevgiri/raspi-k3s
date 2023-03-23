@@ -15,7 +15,7 @@
     - role: roles/ansible_managed_nodes
       amn_state: 'present'
       amn_username: ansible
-      amn_authuser_pubkey: "{{ lookup('first_found', files, skip=true)) | ternary(lookup('file', files[0]), '') }}"
+      amn_authuser_pubkey: "{{ lookup('first_found', files, skip=true) | ternary(lookup('file', files[0]), '') }}"
   vars:
     files:
       - /home/ansible/.ssh/id_rsa.pub # This is with assumption that ansibler username is ansible TODO refactor for consistency

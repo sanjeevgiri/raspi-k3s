@@ -37,12 +37,12 @@ git clone git@github.com:sanjeevgiri/raspi-k3s.git
 ansible all -m ping -i ./inventory/hosts.ini
 
 # Check playbook to create ansible group, user, and setup ssh keys
-ansible-playbook site.yml --check -i ./inventory/ansible-hosts.ini
-ansible-playbook site.yml --check -i ./inventory/ansible-hosts.ini -e "amn_state=absent" -e "acn_state=absent"
+ansible-playbook site-ansible.yml --check -i ./inventory/hosts.ini
+ansible-playbook site-ansible.yml --check -i ./inventory/hosts.ini -e "amn_state=absent" -e "acn_state=absent"
 
 # Execute playbook to create ansible group, user, and setup ssh keys and cleanup
-ansible-playbook site.yml -i ./inventory/ansible-hosts.ini
-ansible-playbook site.yml -i ./inventory/ansible-hosts.ini -e "amn_state=absent" -e "acn_state=absent"
+ansible-playbook site-ansible.yml -i ./inventory/hosts.ini
+ansible-playbook site-ansible.yml -i ./inventory/hosts.ini -e "amn_state=absent" -e "acn_state=absent"
 
 # Check control node
 sudo cat /etc/passwd | grep ansible

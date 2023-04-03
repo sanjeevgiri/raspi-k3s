@@ -1,0 +1,9 @@
+---
+nfs_state: present
+nfs_username: ansible
+nfs_groupname: ansible
+nfs_uid: 2000
+
+nfs_ext_drive_mntpath: '/mnt/usbs'
+nfs_ext_drive_name: "{{ undef(hint='External drive name is required') }}"
+nfs_ext_drive_fdiskid: "{{ undef(hint='External drive diskid is required') }}"

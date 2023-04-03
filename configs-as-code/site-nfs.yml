@@ -1,0 +1,5 @@
+- hosts: nfs_server
+  gather_facts: true
+  roles:
+    - role: roles/nfs_server
+      nfs_state: 'present'

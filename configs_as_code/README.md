@@ -41,12 +41,12 @@ git clone git@github.com:sanjeevgiri/raspi-k3s.git
 ansible all -m ping -i ./inventory/hosts.ini
 
 # Check playbook to create ansible group, user, and setup ssh keys
-ansible-playbook site-ansible.yml --check -i ./inventory/hosts.ini
-ansible-playbook site-ansible.yml --check -i ./inventory/hosts.ini -e "amn_state=absent" -e "acn_state=absent"
+ansible-playbook site_ansible.yml --check -i ./inventory/hosts.ini
+ansible-playbook site_ansible.yml --check -i ./inventory/hosts.ini -e "amn_state=absent" -e "acn_state=absent"
 
 # Execute playbook to create ansible group, user, and setup ssh keys and cleanup
-ansible-playbook site-ansible.yml -i ./inventory/hosts.ini
-ansible-playbook site-ansible.yml -i ./inventory/hosts.ini -e "amn_state=absent" -e "acn_state=absent"
+ansible-playbook site_ansible.yml -i ./inventory/hosts.ini
+ansible-playbook site_ansible.yml -i ./inventory/hosts.ini -e "amn_state=absent" -e "acn_state=absent"
 
 # Check control node
 sudo cat /etc/passwd | grep ansible
@@ -62,7 +62,7 @@ ls -la /home/ansible/.ssh
 
 # Performing package and security updates/upgrades
 ```shell
-ansible-playbook site-update.yml --check -i ./inventory/hosts.ini
+ansible-playbook site_update.yml --check -i ./inventory/hosts.ini
 ansible-playbook site-update.yml -i ./inventory/hosts.ini
 ```
 
@@ -72,8 +72,8 @@ ansible-playbook site-update.yml -i ./inventory/hosts.ini
 
 ```shell
 # Nfs server
-ansible-playbook site-nfs.yml --check -i ./inventory/hosts.ini
-ansible-playbook site-nfs.yml --check -i ./inventory/hosts.ini -e "nfs_server_state=absent"
+ansible-playbook site_nfs.yml --check -i ./inventory/hosts.ini
+ansible-playbook site_nfs.yml --check -i ./inventory/hosts.ini -e "nfs_server_state=absent"
 
 ```
 

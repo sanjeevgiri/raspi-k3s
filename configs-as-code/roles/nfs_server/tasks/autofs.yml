@@ -23,9 +23,9 @@
     mode: '0644'
   when: autofs_config_file.stat.exists and autofs_config_file.stat.isreg
 
-- name: Configure autofs for usb device
+- name: Configure autofs for external device
   ansible.builtin.copy:
-    src: '{{nfs_server_ext_drive_name}}        -fstype=auto    :{{nfs_server_ext_drive_fdiskid}}'
+    content: '{{nfs_server_ext_drive_name}}        -fstype=auto    :{{nfs_server_ext_drive_fdiskid}}'
     dest: /etc/auto.ext-usb
     notify: 'Restart autofs'
   when: nfs_server_state == 'present'

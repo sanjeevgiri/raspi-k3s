@@ -9,7 +9,12 @@
     name: 'autofs'
     state: '{{nfs_server_state}}'
 
-- name: Check if the autofs main configuration file exists
+- name: Check if the autofs original configuration file exists
+  ansible.builtin.stat:
+    path: '/etc/auto.master.original'
+  register: autofs_original_config_file
+
+- name: Check if the autofs configuration file exists
   ansible.builtin.stat:
     path: '/etc/auto.master'
   register: autofs_config_file
@@ -17,11 +22,11 @@
 - name: Create a copy of original autofs configuration file
   ansible.builtin.copy:
     src: /etc/auto.master
-    dest: /etc/auto.master.orig
+    dest: /etc/auto.master.original
     owner: '{{nfs_server_username}}'
     group: '{{nfs_server_groupname}}'
     mode: '0644'
-  when: autofs_config_file.stat.exists and autofs_config_file.stat.isreg
+  when: autofs_original_config_file.stat.exists == False and autofs_config_file.stat.exists and autofs_config_file.stat.isreg
 
 - name: Configure autofs for external device
   ansible.builtin.copy:

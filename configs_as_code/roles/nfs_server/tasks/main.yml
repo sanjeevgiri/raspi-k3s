@@ -1,3 +1,8 @@
 ---
 - name: Install and configure autofs
   include_tasks: autofs.yml
+
+#- name: Install nfs server
+#  apt:
+#    name: 'nfs-kernel-server'
+#    state: '{{nfs_server_state}}'

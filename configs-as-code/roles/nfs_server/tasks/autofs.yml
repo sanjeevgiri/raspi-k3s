@@ -9,6 +9,11 @@
     name: 'autofs'
     state: '{{nfs_server_state}}'
 
+- name: Check if the autofs main configuration file exists
+  ansible.builtin.stat:
+    path: '/etc/auto.master'
+  register: autofs_config_file
+
 - name: Create a copy of original autofs configuration file
   ansible.builtin.copy:
     src: /etc/auto.master
@@ -16,7 +21,7 @@
     owner: '{{nfs_server_username}}'
     group: '{{nfs_server_groupname}}'
     mode: '0644'
-  when: nfs_server_state == 'present'
+  when: autofs_config_file.stat.exists and autofs_config_file.stat.isreg
 
 - name: Configure autofs for usb device
   ansible.builtin.copy:
@@ -31,4 +36,4 @@
     insertafter: 'EOF'
     line: '{{nfs_server_ext_drive_mntpath}}   /etc/auto.ext-usb --ghost --timeout=10,defaults,user,exec,uid={{nfs_server_uid}}'
     notify: 'Restart autofs'
-  when: nfs_server_state == 'present'
+  when: autofs_config_file.stat.exists and autofs_config_file.stat.isreg

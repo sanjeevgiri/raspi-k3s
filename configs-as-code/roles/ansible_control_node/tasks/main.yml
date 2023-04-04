@@ -11,7 +11,7 @@
     amn_groupname: '{{acn_groupname}}'
     amn_state: '{{acn_state}}'
 
-- name: Check if the directory exists
+- name: Check if the .ssh directory exists
   ansible.builtin.stat:
     path: '{{acn_userhome}}/.ssh'
   register: ansible_user_ssh_dir

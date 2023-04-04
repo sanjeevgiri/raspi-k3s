@@ -1,7 +1,6 @@
-
 - name: Create directory for mounting external drives
   ansible.builtin.file:
-    path: '/mnt/usbs'
+    path: '{{nfs_server_ext_drive_mntpath}}'
     state: "{{ (nfs_server_state == 'present') | ternary('directory', 'absent') }}"
     mode: '0755'
 
@@ -17,12 +16,14 @@
     owner: '{{nfs_server_username}}'
     group: '{{nfs_server_groupname}}'
     mode: '0644'
+  when: nfs_server_state == 'present'
 
 - name: Configure autofs for usb device
   ansible.builtin.copy:
     src: '{{nfs_server_ext_drive_name}}        -fstype=auto    :{{nfs_server_ext_drive_fdiskid}}'
     dest: /etc/auto.ext-usb
     notify: 'Restart autofs'
+  when: nfs_server_state == 'present'
 
 - name: Configure autofs main file
   ansible.builtin.lineinfile:
@@ -30,3 +31,4 @@
     insertafter: 'EOF'
     line: '{{nfs_server_ext_drive_mntpath}}   /etc/auto.ext-usb --ghost --timeout=10,defaults,user,exec,uid={{nfs_server_uid}}'
     notify: 'Restart autofs'
+  when: nfs_server_state == 'present'

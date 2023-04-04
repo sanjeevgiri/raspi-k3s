@@ -4,3 +4,5 @@
   roles:
     - role: roles/nfs_server
       nfs_server_state: 'present'
+      nfs_server_ext_drive_fdiskid: /dev/sda1
+      nfs_server_ext_drive_name: pioneer1

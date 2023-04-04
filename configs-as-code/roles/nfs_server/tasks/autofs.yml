@@ -1,35 +1,30 @@
 
 - name: Create directory for mounting external drives
-  become: yes
   ansible.builtin.file:
     path: '/mnt/usbs'
     state: "{{ (nfs_server_state == 'present') | ternary('directory', 'absent') }}"
     mode: '0755'
 
 - name: Install autofs
-  become: yes
   apt:
     name: 'autofs'
     state: '{{nfs_server_state}}'
 
 - name: Create a copy of original autofs configuration file
-  become: yes
   ansible.builtin.copy:
     src: /etc/auto.master
     dest: /etc/auto.master.orig
-    owner: '{{nfs_server_user}}'
+    owner: '{{nfs_server_username}}'
     group: '{{nfs_server_groupname}}'
     mode: '0644'
 
 - name: Configure autofs for usb device
-  become: yes
   ansible.builtin.copy:
     src: '{{nfs_server_ext_drive_name}}        -fstype=auto    :{{nfs_server_ext_drive_fdiskid}}'
     dest: /etc/auto.ext-usb
     notify: 'Restart autofs'
 
 - name: Configure autofs main file
-  become: yes
   ansible.builtin.lineinfile:
     path: /etc/auto.master
     insertafter: 'EOF'

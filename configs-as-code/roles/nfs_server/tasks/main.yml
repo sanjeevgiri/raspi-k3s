@@ -1,3 +1,5 @@
 ---
 - name: Install and configure autofs
-  include_tasks: autofs.yml
+  include_tasks:
+    file: autofs.yml
+    become: true

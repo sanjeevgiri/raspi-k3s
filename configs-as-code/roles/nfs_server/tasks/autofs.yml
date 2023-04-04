@@ -28,7 +28,7 @@
     content: '{{nfs_server_ext_drive_name}}        -fstype=auto    :{{nfs_server_ext_drive_fdiskid}}'
     dest: /etc/auto.ext-usb
   when: nfs_server_state == 'present'
-  notify: ['restart autofs', 'reload autofs']
+  notify: 'Restart nfs.autofs'
 
 - name: Configure autofs main file
   ansible.builtin.lineinfile:
@@ -36,4 +36,4 @@
     insertafter: 'EOF'
     line: '{{nfs_server_ext_drive_mntpath}}   /etc/auto.ext-usb --ghost --timeout=10,defaults,user,exec,uid={{nfs_server_uid}}'
   when: autofs_config_file.stat.exists and autofs_config_file.stat.isreg
-  notify: ['restart autofs', 'reload autofs']
+  notify: 'Restart nfs.autofs'

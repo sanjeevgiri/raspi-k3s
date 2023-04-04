@@ -1,4 +1,3 @@
 ---
-- name: Ansible user and group
-  become: true
+- name: Install and configure autofs
   include_tasks: autofs.yml

@@ -8,7 +8,7 @@
 - name: Install autofs
   apt:
     name: 'autofs'
-    state: '{{nfs_server_state}}'
+    state: "{{ (nfs_server_state == 'present') | ternary('started', 'absent') }}"
     become: true
 
 - name: Create a copy of original autofs configuration file
@@ -25,6 +25,7 @@
     src: '{{nfs_server_ext_drive_name}}        -fstype=auto    :{{nfs_server_ext_drive_fdiskid}}'
     dest: /etc/auto.ext-usb
     become: true
+    notify: 'Reload autofs'
 
 - name: Configure autofs main file
   ansible.builtin.lineinfile:
@@ -32,4 +33,4 @@
     insertafter: 'EOF'
     line: '{{nfs_server_ext_drive_mntpath}}   /etc/auto.ext-usb --ghost --timeout=10,defaults,user,exec,uid={{nfs_server_uid}}'
     become: true
-    notify: 'restart autofs'
+    notify: 'Reload autofs'

@@ -60,11 +60,18 @@ sudo cat /etc/group | grep ansible
 ls -la /home/ansible/.ssh
 ```
 
-# Configure NFS Sever
+# Performing package and security updates/upgrades
+```shell
+ansible-playbook site-update.yml --check -i ./inventory/hosts.ini
+ansible-playbook site-update.yml -i ./inventory/hosts.ini
+```
+
+# Configure NFS Sever and clients
 - Install and configure autofs
 - Install and configure nfs server
 
 ```shell
+# Nfs server
 ansible-playbook site-nfs.yml --check -i ./inventory/hosts.ini
 ansible-playbook site-nfs.yml --check -i ./inventory/hosts.ini -e "nfs_server_state=absent"
 

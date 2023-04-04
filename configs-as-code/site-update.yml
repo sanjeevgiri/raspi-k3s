@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: ansible_control_node
   become: yes
   tasks:
     name: Only run "update_cache=yes" if the last one is more than 3600 seconds ago

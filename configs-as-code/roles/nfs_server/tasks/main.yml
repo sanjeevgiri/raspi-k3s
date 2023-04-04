@@ -8,7 +8,7 @@
 - name: Install autofs
   apt:
     name: 'autofs'
-    state: "{{ (nfs_server_state == 'present') | ternary('started', 'absent') }}"
+    state: '{{nfs_server_state}}'
     become: true
 
 - name: Create a copy of original autofs configuration file

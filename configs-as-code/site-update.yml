@@ -2,8 +2,8 @@
 - hosts: ansible_control_node
   become: yes
   tasks:
-    name: Only run "update_cache=yes" if the last one is more than 3600 seconds ago
-    apt:
-      update_cache: yes
-      force_apt_get: yes
-      cache_valid_time: 3600
+    - name: Only run "update_cache=yes" if the last one is more than 3600 seconds ago
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 3600

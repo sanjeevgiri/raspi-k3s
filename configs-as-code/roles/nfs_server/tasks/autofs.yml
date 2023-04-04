@@ -26,7 +26,7 @@
 - name: Configure autofs for external device
   ansible.builtin.copy:
     content: '{{nfs_server_ext_drive_name}}        -fstype=auto    :{{nfs_server_ext_drive_fdiskid}}'
-    dest: /etc/auto.ext-usb
+    dest: /etc/auto.ext
   when: nfs_server_state == 'present'
   notify: 'Restart nfs.autofs'
 

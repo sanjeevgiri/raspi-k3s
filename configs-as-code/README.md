@@ -64,6 +64,12 @@ ls -la /home/ansible/.ssh
 - Install and configure autofs
 - Install and configure nfs server
 
+```shell
+ansible-playbook site-nfs.yml --check -i ./inventory/hosts.ini
+ansible-playbook site-nfs.yml --check -i ./inventory/hosts.ini -e "nfs_server_state=absent"
+
+```
+
 ### 2.1 NFS Server Setup
 #### 2.1.1 Configure External USB Drive Automount
 ```shell
@@ -119,7 +125,6 @@ echo '/mnt/usbs/pioneer1 192.168.86.0/255.255.255.0(rw,no_subtree_check)' | sudo
 sudo systemctl restart nfs-kernel-server
 systemctl status nfs-kernel-server
 ```
-
 
 # Scratch Pad
 ```shell

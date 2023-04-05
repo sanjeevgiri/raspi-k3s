@@ -1,6 +1,6 @@
 ---
 - name: Run tasks from main file in ansible managed node module
-  ansible.builtin.import_role:
+  import_role:
     name: ansible_managed_nodes
     tasks_from: ansible_user
   vars:
@@ -12,7 +12,7 @@
     amn_state: '{{acn_state}}'
 
 - name: Check if the .ssh directory exists
-  ansible.builtin.stat:
+  stat:
     path: '{{acn_userhome}}/.ssh'
   register: ansible_user_ssh_dir
 

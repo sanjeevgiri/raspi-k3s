@@ -1,12 +1,12 @@
 ---
 - name: Ansible user group
-  ansible.builtin.group:
+  group:
     name: '{{amn_groupname}}'
     gid: '{{amn_gid}}'
     state: '{{amn_state}}'
 
 - name: Ansible user
-  ansible.builtin.user:
+  user:
     name: '{{amn_username}}'
     uid: '{{amn_uid}}'
     shell: /bin/bash
@@ -15,7 +15,7 @@
     state: '{{amn_state}}'
 
 - name: Create .ssh directory
-  ansible.builtin.file:
+  file:
     path: '{{amn_userhome}}/.ssh'
     state: "{{ (amn_state == 'present') | ternary('directory', 'absent') }}"
     mode: '0755'

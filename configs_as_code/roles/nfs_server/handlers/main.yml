@@ -1,5 +1,10 @@
 ---
 - name: Restart nfs.autofs
-  ansible.builtin.service:
+  service:
     name: autofs
+    state: restarted
+
+- name: Restart nfs.server
+  service:
+    name: nfs-kernel-server
     state: restarted

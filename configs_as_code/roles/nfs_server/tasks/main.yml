@@ -8,7 +8,8 @@
     state: '{{nfs_server_state}}'
 
 - name: Configure NFS server - move original config file
-  command: mv /etc/exports /etc/exports.original
+  command:
+    cmd:  mv /etc/exports /etc/exports.original
     creates: /etc/exports.original
     remove: /etc/exports
 

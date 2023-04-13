@@ -1,0 +1,44 @@
+- name: Create directory for mounting external drives
+  file:
+    path: '{{nfs_server_ext_drive_mntpath}}'
+    state: "{{ (nfs_server_state == 'present') | ternary('directory', 'absent') }}"
+    mode: '0755'
+
+- name: Install autofs
+  apt:
+    name: 'autofs'
+    state: '{{nfs_server_state}}'
+
+- name: Check if the autofs original configuration file exists
+  stat:
+    path: '/etc/auto.master.original'
+  register: autofs_original_config_file
+
+- name: Check if the autofs configuration file exists
+  stat:
+    path: '/etc/auto.master'
+  register: autofs_config_file
+
+- name: Create a copy of original autofs configuration file
+  copy:
+    src: /etc/auto.master
+    dest: /etc/auto.master.original
+    owner: '{{nfs_server_username}}'
+    group: '{{nfs_server_groupname}}'
+    mode: '0644'
+  when: autofs_original_config_file.stat.exists == False and autofs_config_file.stat.exists and autofs_config_file.stat.isreg
+
+- name: Configure autofs for external device
+  copy:
+    content: '{{nfs_server_ext_drive_name}}        -fstype=auto    :{{nfs_server_ext_drive_fdiskid}}'
+    dest: /etc/auto.ext
+  when: nfs_server_state == 'present'
+  notify: 'Restart nfs.autofs'
+
+- name: Configure autofs main file
+  lineinfile:
+    path: /etc/auto.master
+    insertafter: 'EOF'
+    line: '{{nfs_server_ext_drive_mntpath}}   /etc/auto.ext --ghost --timeout=10,defaults,user,exec,uid={{nfs_server_uid}}'
+  when: autofs_config_file.stat.exists and autofs_config_file.stat.isreg
+  notify: 'Restart nfs.autofs'

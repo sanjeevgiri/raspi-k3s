@@ -239,4 +239,8 @@ sudo su -
 curl -sfL https://get.k3s.io | K3S_TOKEN="cluster-token-value" K3S_URL="https://192.168.86.100:6443" K3S_NODE_NAME="node1" sh -
 ```
 
+## References
+- https://github.com/techno-tim/k3s-ansible
+- https://github.com/mrlesmithjr/ansible-nfs-server
+- https://github.com/Oefenweb/ansible-nfs-server
 

@@ -22,12 +22,6 @@
   when: nfs_server_state == 'present'
   notify: 'Restart nfs.autofs'
 
-- name: Remove /etc/auto.ext
-  command:
-    cmd: rm -f  /etc/auto.ext
-    removes: /etc/auto.ext
-  when: nfs_server_state == 'absent'
-
 - name: Configure autofs main file
   lineinfile:
     path: /etc/auto.master
@@ -37,8 +31,8 @@
   when: nfs_server_state == 'present'
   notify: 'Restart nfs.autofs'
 
-- name: Remove /etc/auto.master.original
+- name: Restore /etc/auto.master
   command:
-    cmd: mv /etc/auto.master.original /etc/auto.master
+    cmd: rm -f  /etc/auto.ext && mv /etc/auto.master.original /etc/auto.master
     removes: /etc/auto.master.original
   when: nfs_server_state == 'absent'

@@ -21,8 +21,14 @@
   when: nfs_server_state == 'present'
   notify: Restart nfs.server
 
-- name: Restore original config file
+- name: (Cleanup) Remove /etc/exports
   command:
-    cmd: rm -f /etc/exports && mv /etc/exports.original /etc/exports
+    cmd: rm -f /etc/exports
+    removes: /etc/exports
+  when: nfs_server_state == 'absent'
+
+- name: (Cleanup) Restore original config file
+  command:
+    cmd: mv /etc/exports.original /etc/exports
     removes: /etc/exports.original
   when: nfs_server_state == 'absent'

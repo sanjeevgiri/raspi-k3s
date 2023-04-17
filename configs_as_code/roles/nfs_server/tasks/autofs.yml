@@ -39,6 +39,6 @@
 
 - name: Remove /etc/auto.master.original
   command:
-    cmd: rm -f  /etc/auto.master && mv /etc/auto.master.original
+    cmd: mv /etc/auto.master.original /etc/auto.master
     removes: /etc/auto.master.original
   when: nfs_server_state == 'absent'

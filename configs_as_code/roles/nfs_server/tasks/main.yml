@@ -2,14 +2,6 @@
 - name: Install and configure autofs
   include_tasks: autofs.yml
 
-- name: Check if autofs service exists
-  stat: path=/etc/init.d/autofs
-  register: autofs
-
-- name: Stop Service
-  service: name=autofs state=stopped
-  when: autofs.stat.exists
-
 - name: Install NFS server
   apt:
     name: 'nfs-kernel-server'

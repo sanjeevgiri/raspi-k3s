@@ -4,4 +4,4 @@
 
 - name: Stop Service
   service: name=autofs state=stopped
-  when: {{service_state}} == 'absent' service.stat.exists
+  when: service.stat.exists

@@ -1,23 +1,13 @@
-- name: Check if autofs service exists
-  stat: path=/etc/init.d/autofs
-  register: autofs
-  when: nfs_server_state == 'absent'
-
-- name: Stop Service
-  service: name=autofs state=stopped
-  when: nfs_server_state == 'absent' autofs.stat.exists
-
+- name: Install autofs
+  apt:
+    name: 'autofs'
+    state: '{{nfs_server_state}}'
 
 - name: Create directory for mounting external drives
   file:
     path: '{{nfs_server_ext_drive_mntpath}}'
     state: "{{ (nfs_server_state == 'present') | ternary('directory', 'absent') }}"
     mode: '0755'
-
-- name: Install autofs
-  apt:
-    name: 'autofs'
-    state: '{{nfs_server_state}}'
 
 - name: Create a copy of original autofs configuration file
   command:

@@ -1,3 +1,13 @@
+- name: Check if autofs service exists
+  stat: path=/etc/init.d/autofs
+  register: autofs
+  when: nfs_server_state == 'absent'
+
+- name: Stop Service
+  service: name=autofs state=stopped
+  when: nfs_server_state == 'absent' autofs.stat.exists
+
+
 - name: Create directory for mounting external drives
   file:
     path: '{{nfs_server_ext_drive_mntpath}}'

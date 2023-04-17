@@ -33,6 +33,6 @@
 
 - name: Restore /etc/auto.master
   command:
-    cmd: rm -f  /etc/auto.ext && mv /etc/auto.master.original /etc/auto.master
+    cmd: rm -f /etc/auto.ext && rm -f  /etc/auto.master && mv /etc/auto.master.original /etc/auto.master
     removes: /etc/auto.master.original
   when: nfs_server_state == 'absent'

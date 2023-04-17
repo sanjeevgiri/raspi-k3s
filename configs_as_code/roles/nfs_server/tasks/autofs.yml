@@ -34,6 +34,7 @@
     insertafter: 'EOF'
     line: '{{nfs_server_ext_drive_mntpath}}   /etc/auto.ext --ghost --timeout=10,defaults,user,exec,uid={{nfs_server_uid}}'
     state: '{{nfs_server_state}}'
+  when: nfs_server_state == 'present'
   notify: 'Restart nfs.autofs'
 
 - name: Remove /etc/auto.master.original

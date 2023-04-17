@@ -1,7 +1,0 @@
-- name: Check if {{service_name}} service exists
-  stat: path=/etc/init.d/autofs
-  register: service
-
-- name: Stop Service
-  service: name=autofs state=stopped
-  when: service.stat.exists

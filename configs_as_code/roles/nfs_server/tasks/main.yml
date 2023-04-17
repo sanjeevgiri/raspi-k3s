@@ -12,9 +12,17 @@
     cmd:  mv /etc/exports /etc/exports.original
     creates: /etc/exports.original
     removes: /etc/exports
+  when: nfs_server_state == 'present'
 
 - name: Configure NFS server
   copy:
     content: '{{nfs_server_ext_drive_mntpath}}/{{nfs_server_ext_drive_name}} {{nfs_server_subnet}}/{{nfs_server_subnet_mask}}(rw,no_subtree_check)'
     dest: /etc/exports
+  when: nfs_server_state == 'present'
   notify: Restart nfs.server
+
+- name: Restore original config file
+  command:
+    cmd: rm -f /etc/exports && mv /etc/exports.original /etc/exports
+    removes: /etc/exports.original
+  when: nfs_server_state == 'absent'

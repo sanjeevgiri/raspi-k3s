@@ -9,6 +9,8 @@
     path: '{{nfs_client_mount_point}}'
     state: "{{ (nfs_client_state == 'present') | ternary('directory', 'absent') }}"
     mode: '0755'
+    user: '{{nfs_client_username}}'
+    group: '{{nfs_client_groupname}}'
 
 - name: Mount NFS volume
   ansible.posix.mount:

@@ -1,0 +1,7 @@
+nfs_client_state: present
+nfs_client_username: ansible
+nfs_client_groupname: ansible
+
+nfs_server_ip_or_hostname: "{{ undef(hint='NFS Server IP or Hostname is required') }}"
+nfs_server_share_path: "{{ undef(hint='NFS Server shared directory path is required') }}"
+nfs_client_mount_point: "{{ undef(hint='NFS Client mount point is required') }}"

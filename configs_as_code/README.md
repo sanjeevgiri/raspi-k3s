@@ -71,12 +71,13 @@ ansible-playbook site-update.yml -i ./inventory/hosts.ini
 - Install and configure nfs server
 
 ```shell
-# Nfs
+# NFS Checks
 ansible-playbook site_nfs.yml --check -i ./inventory/hosts.ini
 ansible-playbook site_nfs.yml --check -i ./inventory/hosts.ini -e "nfs_server_state=absent"
 
+# NFS Apply
 ansible-playbook site_nfs.yml -i ./inventory/hosts.ini
-ansible-playbook site_nfs.yml -i ./inventory/hosts.ini -e "nfs_server_state=absent"
 
-
+# NFS Undo
+ansible-playbook site_nfs.yml -i ./inventory/hosts.ini -e "nfs_server_state=absent" -e "nfs_client_state=absent"
 ```

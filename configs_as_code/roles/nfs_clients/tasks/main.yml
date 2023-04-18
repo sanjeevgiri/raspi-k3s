@@ -9,7 +9,7 @@
     path: '{{nfs_client_mount_point}}'
     state: "{{ (nfs_client_state == 'present') | ternary('directory', 'absent') }}"
     mode: '0755'
-    user: '{{nfs_client_username}}'
+    owner: '{{nfs_client_username}}'
     group: '{{nfs_client_groupname}}'
 
 - name: Mount NFS volume

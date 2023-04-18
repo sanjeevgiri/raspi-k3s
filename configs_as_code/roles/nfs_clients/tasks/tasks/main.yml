@@ -1,0 +1,19 @@
+---
+- name: Install nfs-common
+  apt:
+    name: 'nfs-common'
+    state: '{{nfs_client_state}}'
+
+- name: Prepare mount point
+  file:
+    path: '{{nfs_client_mount_point}}'
+    state: "{{ (nfs_client_state == 'present') | ternary('directory', 'absent') }}"
+    mode: '0755'
+
+- name: Mount NFS volume
+  ansible.posix.mount:
+    src: '{{nfs_server_ip_or_hostname}}:{{nfs_server_share_path}}'
+    path: '{{nfs_client_mount_point}}'
+    opts: rw,sync,hard
+    state: "{{ (nfs_client_state == 'present') | ternary('mounted', 'unmounted') }}"
+    fstype: nfs

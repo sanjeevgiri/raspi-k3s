@@ -8,6 +8,8 @@
     path: '{{nfs_server_ext_drive_mntpath}}'
     state: "{{ (nfs_server_state == 'present') | ternary('directory', 'absent') }}"
     mode: '0755'
+    owner: '{{nfs_server_username}}'
+    group: '{{nfs_server_groupname}}'
 
 - name: Create a copy of original autofs configuration file
   command:

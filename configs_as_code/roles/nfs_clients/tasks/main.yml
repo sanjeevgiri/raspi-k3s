@@ -29,6 +29,11 @@
   register: nfs_client_mnt_path_basedir
   when: nfs_client_state == 'absent'
 
+- name: (Cleanup) Print nfs client mount path base directory
+  debug:
+    var: nfs_client_mnt_path_basedir.stdout
+  when: nfs_client_state == 'absent'
+
 - name: (Cleanup) Remove nfs client mount path base directory
   command:
     cmd: rm -r '{{nfs_client_mnt_path_basedir.stdout}}'

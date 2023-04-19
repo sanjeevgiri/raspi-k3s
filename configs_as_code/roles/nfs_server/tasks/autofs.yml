@@ -52,10 +52,8 @@
   when: nfs_server_state == 'absent'
 
 - name: (Cleanup) Evaluate mount path base directory
-  command: |
-    mount_path='{{nfs_server_ext_drive_mnt_path}}'
-    mount_path_base_dir="/mnt/$(echo $mount_path)"
-    echo $mount_path_base_dir
+  shell:
+    cmd: echo '{{nfs_server_ext_drive_mnt_path}}' | cut -d '/' f2
   register: ext_drive_mnt_path_basedir
 
 - name: (Cleanup) Print mount path base directory

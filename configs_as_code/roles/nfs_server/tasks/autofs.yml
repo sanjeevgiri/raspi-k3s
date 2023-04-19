@@ -55,6 +55,7 @@
   command: |
     mount_path='{{nfs_server_ext_drive_mnt_path}}'
     mount_path_base_dir="/mnt/$(echo $mount_path)"
+    echo $mount_path_base_dir
   register: ext_drive_mnt_path_basedir
 
 - name: (Cleanup) Print mount path base directory

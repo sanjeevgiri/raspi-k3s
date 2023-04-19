@@ -6,3 +6,4 @@ nfs_server_ip_or_hostname: "{{ undef(hint='NFS Server IP or Hostname is required
 nfs_server_share_path: "{{ undef(hint='NFS Server shared directory path is required') }}"
 # Mount paths will be prefixed with /mnt. For example /nfs/pioneer1 will create a mount path of /mnt/nfs/pioneer1
 nfs_client_mount_path: "{{ undef(hint='NFS Client mount point is required') }}"
+nfs_client_mount_point: "/mnt/{{nfs_client_mount_path}}"

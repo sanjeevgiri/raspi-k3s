@@ -28,5 +28,4 @@
 - name: (Cleanup) Remove mount path base directory
   command:
     cmd: rm -r '{{ext_drive_mnt_path_basedir.stdout}}'
-    removes: '{{ext_drive_mnt_path_basedir.stdout}}'
   when: nfs_server_state == 'absent'

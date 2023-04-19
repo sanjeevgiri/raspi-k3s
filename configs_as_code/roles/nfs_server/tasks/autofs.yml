@@ -6,7 +6,7 @@
 
 - name: Create directory for mounting external drives
   file:
-    path: '/mnt/{{nfs_server_ext_drive_mnt_path}}'
+    path: '{{nfs_server_ext_drive_mnt_point}}'
     state: "{{ (nfs_server_state == 'present') | ternary('directory', 'absent') }}"
     mode: '0755'
     owner: '{{nfs_server_username}}'
@@ -29,7 +29,7 @@
   lineinfile:
     path: /etc/auto.master
     insertafter: 'EOF'
-    line: '/mnt/{{nfs_server_ext_drive_mnt_path}}   /etc/auto.ext --ghost --timeout=10,defaults,user,exec,uid={{nfs_server_uid}}'
+    line: '{{nfs_server_ext_drive_mnt_point}}   /etc/auto.ext --ghost --timeout=10,defaults,user,exec,uid={{nfs_server_uid}}'
     state: '{{nfs_server_state}}'
   when: nfs_server_state == 'present'
   notify: 'Restart nfs.autofs'

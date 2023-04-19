@@ -1,7 +1,7 @@
 ---
 - name: (Cleanup) Unmount external drive
   ansible.posix.mount:
-    src: '{{nfs_server_ext_drive_mnt_point}}'
+    path: '{{nfs_server_ext_drive_mnt_point}}'
     state: 'unmounted'
   when: nfs_server_state == 'absent'
 

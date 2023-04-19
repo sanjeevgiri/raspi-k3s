@@ -32,3 +32,6 @@
     cmd: mv /etc/exports.original /etc/exports
     removes: /etc/exports.original
   when: nfs_server_state == 'absent'
+
+- name: Install and configure autofs
+  include_tasks: autofs-cleanup.yml

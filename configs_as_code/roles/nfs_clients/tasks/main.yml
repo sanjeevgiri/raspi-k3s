@@ -6,7 +6,7 @@
 
 - name: Prepare mount point
   file:
-    path: '{{nfs_client_mount_point}}'
+    path: '/mnt/{{nfs_client_mount_path}}'
     state: 'directory'
     mode: '0755'
     owner: '{{nfs_client_username}}'

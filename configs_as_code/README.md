@@ -79,7 +79,7 @@ ansible-playbook site_nfs_server.yml --check -i ./inventory/hosts.ini -e "nfs_se
 ansible-playbook site_nfs_server.yml -i ./inventory/hosts.ini
 
 # NFS Undo
-ansible-playbook site_nfs_server.yml -i ./inventory/hosts.ini -e "nfs_server_state=absent
+ansible-playbook site_nfs_server.yml -i ./inventory/hosts.ini -e "nfs_server_state=absent"
 ```
 
 # Configure NFS Clients
@@ -92,7 +92,7 @@ ansible-playbook site_nfs_clients.yml --check -i ./inventory/hosts.ini -e "nfs_c
 ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini
 
 # NFS Undo
-ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini -e "nfs_client_state=absent
+ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini -e "nfs_client_state=absent"
 ```
 
 

@@ -4,7 +4,8 @@
   roles:
     - role: roles/nfs_server
       nfs_server_state: 'present'
-      nfs_server_ext_drive_fdiskid: /dev/sda1
+      nfs_server_ext_drive_mnt_path: /usbs
+      nfs_server_ext_drive_fdisk_id: /dev/sda1
       nfs_server_ext_drive_name: pioneer1
       nfs_server_subnet: 192.168.86.0
       nfs_server_subnet_mask: 255.255.255.0

@@ -7,10 +7,11 @@
 - name: Prepare mount point
   file:
     path: '{{nfs_client_mount_point}}'
-    state: "{{ (nfs_client_state == 'present') | ternary('directory', 'absent') }}"
+    state: 'directory'
     mode: '0755'
     owner: '{{nfs_client_username}}'
     group: '{{nfs_client_groupname}}'
+  when: nfs_client_state == 'present'
 
 - name: Mount NFS volume
   ansible.posix.mount:
@@ -19,3 +20,12 @@
     opts: rw,sync,hard
     state: "{{ (nfs_client_state == 'present') | ternary('mounted', 'unmounted') }}"
     fstype: nfs
+
+- name: () Cleanup mount path
+  file:
+    path: '{{nfs_client_mount_point}}'
+    state: 'directory'
+    mode: '0755'
+    owner: '{{nfs_client_username}}'
+    group: '{{nfs_client_groupname}}'
+  when: nfs_client_state == 'present'

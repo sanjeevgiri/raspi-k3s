@@ -5,7 +5,7 @@
 
 - name: Create directory for mounting external drives
   file:
-    path: '{{nfs_server_ext_drive_mntpath}}'
+    path: '/mnt/{{nfs_server_ext_drive_mnt_path}}'
     state: "{{ (nfs_server_state == 'present') | ternary('directory', 'absent') }}"
     mode: '0755'
     owner: '{{nfs_server_username}}'
@@ -19,7 +19,7 @@
 
 - name: Configure autofs for external device
   copy:
-    content: '{{nfs_server_ext_drive_name}}        -fstype=auto    :{{nfs_server_ext_drive_fdiskid}}'
+    content: '{{nfs_server_ext_drive_name}}        -fstype=auto    :{{nfs_server_ext_drive_fdisk_id}}'
     dest: /etc/auto.ext
   when: nfs_server_state == 'present'
   notify: 'Restart nfs.autofs'
@@ -28,7 +28,7 @@
   lineinfile:
     path: /etc/auto.master
     insertafter: 'EOF'
-    line: '{{nfs_server_ext_drive_mntpath}}   /etc/auto.ext --ghost --timeout=10,defaults,user,exec,uid={{nfs_server_uid}}'
+    line: '/mnt/{{nfs_server_ext_drive_mnt_path}}   /etc/auto.ext --ghost --timeout=10,defaults,user,exec,uid={{nfs_server_uid}}'
     state: '{{nfs_server_state}}'
   when: nfs_server_state == 'present'
   notify: 'Restart nfs.autofs'
@@ -45,8 +45,17 @@
     removes: /etc/auto.master
   when: nfs_server_state == 'absent'
 
-- name: (Cleanup) Restore /etc/auto.master
+- name: (Cleanup) Restore /etc/auto.master Uninstall does bring it back to original state, therefore this is required.
   command:
     cmd: mv /etc/auto.master.original /etc/auto.master
     removes: /etc/auto.master.original
   when: nfs_server_state == 'absent'
+
+- name: (Cleanup) Evaluate mount path base directory
+  shell: "/mnt/$(echo '{{nfs_server_ext_drive_mnt_path}}' | cut -d '/' f2)"
+  register: ext_drive_mnt_path_basedir
+
+- name: (Cleanup) Print mount path base directory
+  debug:
+    var: ext_drive_mnt_path_basedir.stdout_lines
+

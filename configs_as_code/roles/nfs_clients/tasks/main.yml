@@ -24,7 +24,7 @@
 - name: (Cleanup) Evaluate nfs share client mount path base directory
   shell:
     cmd: |
-      basedir=$(echo '{{nfs_client_mount_path}}' | cut -d '/' -f2)
+      basedir=$(echo '{{nfs_client_mount_path}}' | cut -d '/' -f1)
       echo "/mnt/${basedir}"
   register: nfs_client_mnt_path_basedir
   when: nfs_client_state == 'absent'

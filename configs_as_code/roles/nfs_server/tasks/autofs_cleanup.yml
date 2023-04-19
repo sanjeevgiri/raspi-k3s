@@ -20,7 +20,7 @@
 - name: (Cleanup) Evaluate mount path base directory
   shell:
     cmd: |
-      basedir=$(echo '{{nfs_server_ext_drive_mnt_path}}' | cut -d '/' -f2)
+      basedir=$(echo '{{nfs_server_ext_drive_mnt_path}}' | cut -d '/' -f1)
       echo "/mnt/${basedir}"
   register: ext_drive_mnt_path_basedir
   when: nfs_server_state == 'absent'

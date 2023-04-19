@@ -11,6 +11,7 @@
     mode: '0755'
     owner: '{{nfs_server_username}}'
     group: '{{nfs_server_groupname}}'
+  when: nfs_server_state == 'present'
 
 - name: Create a copy of original autofs configuration file
   command:

@@ -59,6 +59,8 @@
   register: ext_drive_mnt_path_basedir
 
 - name: (Cleanup) Print mount path base directory
-  debug:
-    var: ext_drive_mnt_path_basedir.stdout
+  command:
+    cmd: rm -r '{{ext_drive_mnt_path_basedir.stdout}}'
+    removes: ext_drive_mnt_path_basedir.stdout
+  when: nfs_server_state == 'absent'
 

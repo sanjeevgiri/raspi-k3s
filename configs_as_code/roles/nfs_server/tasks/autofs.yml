@@ -53,7 +53,9 @@
 
 - name: (Cleanup) Evaluate mount path base directory
   shell:
-    cmd: echo '{{nfs_server_ext_drive_mnt_path}}' | cut -d '/' -f2
+    cmd: |
+      basedir=$(echo '{{nfs_server_ext_drive_mnt_path}}' | cut -d '/' -f2)
+      echo "/mnt/${mount_point_basedir}"
   register: ext_drive_mnt_path_basedir
 
 - name: (Cleanup) Print mount path base directory

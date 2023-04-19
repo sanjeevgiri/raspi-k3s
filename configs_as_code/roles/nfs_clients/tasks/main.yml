@@ -16,7 +16,7 @@
 - name: Mount NFS volume
   ansible.posix.mount:
     src: '{{nfs_server_ip_or_hostname}}:{{nfs_server_share_path}}'
-    path: '{{nfs_client_mount_point}}'
+    path: '/mnt/{{nfs_client_mount_path}}'
     opts: rw,sync,hard
     state: "{{ (nfs_client_state == 'present') | ternary('mounted', 'unmounted') }}"
     fstype: nfs

@@ -5,5 +5,5 @@
     - role: roles/nfs_clients
       nfs_client_state: 'present'
       nfs_server_ip_or_hostname: nfs
-      nfs_server_mount_path: usbs/pioneer1
+      nfs_server_share_path: /mnt/usbs/pioneer1
       nfs_client_mount_path: nfs/pioneer1

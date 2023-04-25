@@ -95,7 +95,9 @@ ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini
 ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini -e "nfs_client_state=absent"
 ```
 # Whats next
-- NFS server clean does not work properly (stop kernet, umount, then clean)
-- NFS client does not clean up mount directories
+- K3s main
+- K3s workers
+- PVC provisioner
+- NextCloud setup
 
 

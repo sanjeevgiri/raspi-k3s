@@ -66,82 +66,38 @@ ansible-playbook site_update.yml --check -i ./inventory/hosts.ini
 ansible-playbook site-update.yml -i ./inventory/hosts.ini
 ```
 
-# Configure NFS Sever and clients
+# Configure NFS Sever
 - Install and configure autofs
 - Install and configure nfs server
 
 ```shell
-# Nfs
-ansible-playbook site_nfs.yml --check -i ./inventory/hosts.ini
-ansible-playbook site_nfs.yml --check -i ./inventory/hosts.ini -e "nfs_server_state=absent"
+# NFS Checks
+ansible-playbook site_nfs_server.yml --check -i ./inventory/hosts.ini
+ansible-playbook site_nfs_server.yml --check -i ./inventory/hosts.ini -e "nfs_server_state=absent"
 
-ansible-playbook site_nfs.yml -i ./inventory/hosts.ini
-ansible-playbook site_nfs.yml -i ./inventory/hosts.ini -e "nfs_server_state=absent"
+# NFS Apply
+ansible-playbook site_nfs_server.yml -i ./inventory/hosts.ini
 
-
+# NFS Undo
+ansible-playbook site_nfs_server.yml -i ./inventory/hosts.ini -e "nfs_server_state=absent"
 ```
 
-### 2.1 NFS Server Setup
-#### 2.1.1 Configure External USB Drive Automount
+# Configure NFS Clients
 ```shell
-# Get device information
-lsblk 
-sudo fdisk -l
+# NFS Checks
+ansible-playbook site_nfs_clients.yml --check -i ./inventory/hosts.ini
+ansible-playbook site_nfs_clients.yml --check -i ./inventory/hosts.ini -e "nfs_client_state=absent"
 
-# Create a mount point
-sudo mkdir /mnt/usbs
+# NFS Apply
+ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini
 
-# Mount NTFS
-# sudo mount -t ntfs-3g /dev/sda1 /exports/usbmounts/pioneer1
-
-# Unmount
-# sudo umount /exports/usbmounts/pioneer1
-
-# Automounting an external drive using autofs at runtime (when exploring directories)
-## Install autofs
-sudo apt install autofs
-
-## Configure autofs
-sudo cp /etc/auto.master /etc/auto.master.orig
-echo '/mnt/usbs   /etc/auto.ext-usb --ghost --timeout=10,defaults,user,exec,uid=1000' | sudo tee -a /etc/auto.master
-echo 'pioneer1        -fstype=auto    :/dev/sda1' | sudo tee /etc/auto.ext-usb
-sudo nano /etc/auto.ext-usb
-
-sudo systemctl restart autofs
-
-# Stop autofs
-# sudo systemctl stop autofs
-
-systemctl status autofs
+# NFS Undo
+ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini -e "nfs_client_state=absent"
 ```
-```diff
-☝️ 
-- You can change directory to the autofs configured mounts: cd /exports/usbmounts/pioneer1
-- Howver if you perform df -h after the time out interval, it will not show up as mounted
-- After step 2.1.2 however, it will always show up as mounted when we expose it with nfsserver
-```
+# Whats next
+- K3s main
+- K3s workers
+- PVC provisioner
+- NextCloud setup
 
-#### 2.1.2 Install and Configure NFS Server
-```shell
-# Install NFS server
-sudo apt install nfs-kernel-server
-sudo systemctl status nfs-kernel-server
 
-# Configure nfs server
-cat /etc/exports
-sudo mv /etc/exports /etc/exports.original
-echo '/mnt/usbs/pioneer1 192.168.86.0/255.255.255.0(rw,no_subtree_check)' | sudo tee /etc/exports
-
-# Restart server
-sudo systemctl restart nfs-kernel-server
-systemctl status nfs-kernel-server
-```
-
-# Scratch Pad
-```shell
-# Pass variables during playbook execution
-ansible-playbook site.yml --check -i ./inventory/hosts.ini -e "@values.yml"
-```
-
-## What next
-- NFS server and autofs

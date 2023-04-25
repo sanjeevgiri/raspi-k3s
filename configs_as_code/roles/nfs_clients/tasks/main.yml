@@ -1,0 +1,41 @@
+---
+- name: Install nfs-common
+  apt:
+    name: 'nfs-common'
+    state: '{{nfs_client_state}}'
+
+- name: Prepare mount point
+  file:
+    path: '{{nfs_client_mount_point}}'
+    state: 'directory'
+    mode: '0755'
+    owner: '{{nfs_client_username}}'
+    group: '{{nfs_client_groupname}}'
+  when: nfs_client_state == 'present'
+
+- name: Mount NFS volume
+  ansible.posix.mount:
+    src: '{{nfs_server_ip_or_hostname}}:{{nfs_server_share_path}}'
+    path: '{{nfs_client_mount_point}}'
+    opts: rw,sync,hard
+    state: "{{ (nfs_client_state == 'present') | ternary('mounted', 'unmounted') }}"
+    fstype: nfs
+
+- name: (Cleanup) Evaluate nfs share client mount path base directory
+  shell:
+    cmd: |
+      basedir=$(echo '{{nfs_client_mount_path}}' | cut -d '/' -f1)
+      echo "/mnt/${basedir}"
+  register: nfs_client_mnt_path_basedir
+  when: nfs_client_state == 'absent'
+
+- name: (Cleanup) Print nfs client mount path base directory
+  debug:
+    var: nfs_client_mnt_path_basedir.stdout
+  when: nfs_client_state == 'absent'
+
+- name: (Cleanup) Remove mount directory
+  file:
+    path: '{{nfs_client_mnt_path_basedir.stdout}}'
+    state: 'absent'
+  when: nfs_client_state == 'absent'

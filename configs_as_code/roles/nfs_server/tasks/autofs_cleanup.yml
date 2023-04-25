@@ -1,0 +1,38 @@
+---
+- name: (Cleanup) Unmount external drive
+  ansible.posix.mount:
+    path: '{{nfs_server_ext_drive_mnt_point}}'
+    state: 'unmounted'
+  when: nfs_server_state == 'absent'
+
+- name: (Cleanup) Remove auto.ext
+  command:
+    cmd: rm -f /etc/auto.ext
+    removes: /etc/auto.ext
+  when: nfs_server_state == 'absent'
+
+- name: (Cleanup) Remove auto.master
+  command:
+    cmd: rm -f  /etc/auto.master
+    removes: /etc/auto.master
+  when: nfs_server_state == 'absent'
+
+- name: (Cleanup) Restore /etc/auto.master Uninstall does bring it back to original state, therefore this is required.
+  command:
+    cmd: mv /etc/auto.master.original /etc/auto.master
+    removes: /etc/auto.master.original
+  when: nfs_server_state == 'absent'
+
+- name: (Cleanup) Evaluate mount path base directory
+  shell:
+    cmd: |
+      basedir=$(echo '{{nfs_server_ext_drive_mnt_path}}' | cut -d '/' -f1)
+      echo "/mnt/${basedir}"
+  register: ext_drive_mnt_path_basedir
+  when: nfs_server_state == 'absent'
+
+- name: (Cleanup) Remove mount path base directory
+  file:
+    path: '{{ext_drive_mnt_path_basedir.stdout}}'
+    state: 'absent'
+  when: nfs_server_state == 'absent'

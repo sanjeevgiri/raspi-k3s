@@ -4,8 +4,15 @@ Configure the following:
 - nfs server
 - k3s nodes
 
-# Ansible Control Node Prerequisites
-I will be using the host where we plan on deploying the NFS server as the ansible control node. 
+# Prequisites
+- All servers are configured for UTC timezone
+- All servers are based on raspberry pi arm 64
+- All servers OS are ubuntu server 22.04.2 LTS Server +
+- All servers have the boot file updated to enable cgroup
+  cgroup=1 cgroup_enable=memory
+
+# Ansible Control Node
+In this implementation, the host where we plan on deploying the NFS server as the ansible control node. 
 
 ## Install Ansible, Git, and Configure Setup SSH Keys
 ```shell

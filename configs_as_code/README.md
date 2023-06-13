@@ -101,9 +101,61 @@ ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini
 # NFS Undo
 ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini -e "nfs_client_state=absent"
 ```
+
+# Configure K3s Cluster Nodes (Control and Data)
+- Install k3s
+  - https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/k3s
+  - k3s_version current - v1.27.2+k3s1 vs v1.25.9+k3s1
+- Install raspi extra modules
+- Setup UTC timezone
+- Enable ipv4 and ipv6 port forwarding
+- Enable ipv6 router advertisements
+
+# Configure K3s Control Nodes
+- Cleanup prior initialization transient services
+- Deploy vip (VIP allocates virtual ip to control nodes and can be thought of as a LB for control nodes)
+- Deploy metallb (replace traefik with metallb, lb for applications)
+- Initialization with systemd-run (transient service) and parameters - `extra_server_args, server_init_args`
+- Verify all control nodes have joined the cluster and save k3s init logs
+- Copy and enable k3s service
+- Manage node token (wait for availability, access, read from control, store, restore access)
+- Configure kubectl cluster
+- Create kubectl and crictl symlinks
+- Remove manifests and folders that are only needed for bootstrapping cluster so k3s does not auto apply on start
+
+# Vip deployment (LB for control plane)
+- Create a manifest directory in the first control node (ensure naming consistency here)
+- Download vip rback 
+  - kube_vip_tag_version used 0.5.7, current 0.6.0
+  - https://github.com/kube-vip/kube-vip/blob/v0.6.0/docs/manifests/rbac.yaml
+- Copy vip rback to first control node
+
+# Metallb (LB for data plane - may need to experiment using VIP for data plane as well)
+- Create a manifest directory in the first control node
+- Download manifest for metallb by type
+  - metal_lb_type - native
+  - metal_lb_mode - layer2
+  - metal_lb_frr_tag_version is not used
+  - metal_lb_speaker_tag_version (may not be needed if we want to keep consistent version between controller and speaker)
+  - metal_lb_controller_tag_version current 0.13.10 used 0.13.9
+  - https://github.com/metallb/metallb/tree/main/config/manifests
+- Update metallb manifest speaker docker image to specific version if needed (may skip this and start out with same)
+
+## K3s Service
+server_init_args
+
+
+# Configure K3s Data Plane
+
 # Whats next
-- K3s main
-- K3s workers
+- K3s control
+  - Understand and document k3s-init transient service (systemd-run) - extra_server_args, server_init_args
+  - Understand and document the k3s server arguments for initialization for cases where there is only one master node
+  - Understand and document k3s server service arguments - server_init_args
+  - Understand role of VIP
+  - Understand metallb
+  - Undersand the work needed to change from master to control plane
+- K3s data
 - PVC provisioner
 - NextCloud setup
 

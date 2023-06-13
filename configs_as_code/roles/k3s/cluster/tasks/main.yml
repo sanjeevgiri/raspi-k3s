@@ -8,6 +8,10 @@
     group: root
     mode: 0755
 
+- name: Set timezone to Asia/Tokyo
+  community.general.timezone:
+    name: Etc/UTC
+
 - name: Enable IPv4 forwarding
   sysctl:
     name: net.ipv4.ip_forward

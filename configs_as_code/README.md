@@ -110,6 +110,10 @@ ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini -e "nfs_client_st
 - Setup UTC timezone
 - Enable ipv4 and ipv6 port forwarding
 - Enable ipv6 router advertisements
+- Variables
+  - systemd_dir
+  - system_timezone
+- 
 
 # Configure K3s Control Nodes
 - Cleanup prior initialization transient services
@@ -123,14 +127,14 @@ ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini -e "nfs_client_st
 - Create kubectl and crictl symlinks
 - Remove manifests and folders that are only needed for bootstrapping cluster so k3s does not auto apply on start
 
-# Vip deployment (LB for control plane)
+## Vip deployment (LB for control plane)
 - Create a manifest directory in the first control node (ensure naming consistency here)
 - Download vip rback 
   - kube_vip_tag_version used 0.5.7, current 0.6.0
   - https://github.com/kube-vip/kube-vip/blob/v0.6.0/docs/manifests/rbac.yaml
 - Copy vip rback to first control node
 
-# Metallb (LB for data plane - may need to experiment using VIP for data plane as well)
+## Metallb (LB for data plane - may need to experiment using VIP for data plane as well)
 - Create a manifest directory in the first control node
 - Download manifest for metallb by type
   - metal_lb_type - native
@@ -141,21 +145,52 @@ ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini -e "nfs_client_st
   - https://github.com/metallb/metallb/tree/main/config/manifests
 - Update metallb manifest speaker docker image to specific version if needed (may skip this and start out with same)
 
-## K3s Service
-server_init_args
+## K3 Control Nodes Variables:
+K3s Server
+- apiserver_endpoint:
+  - VIP based virtual ip address to use for api_server
+- server_init_args:
+  - Used for bootstrapping k2s service
+  - https://github.com/k3s-io/k3s/discussions/3429
+  - https://docs.k3s.io/cli/server
+- extra_server_args
+  - extra args
+  - Exclude workloads from being scheduled in control nodes with node taints - --node-taint node-role.kubernetes.io/master=true:NoSchedule
+  - tls-san api sever ip
+  - disable servicelb and traefik
+- extra_args
+  - Flannel interface
+  - Node ip
+- log_destination
+  - Set this variable to store initialization logs
+- systemd_dir
+  - This is where services will be installed and configured
+- retry_count
+  - Used to verify all control nodes have joined the cluster
 
+Metallb
+- metal_lb_type:
+  - native - for ipv4 frr for ipv6 support
+- metal_lb_mode:
+  - layer2 - post k3s tasks
+- https://github.com/metallb/metallb
+- https://metallb.universe.tf/installation/
 
 # Configure K3s Data Plane
+- Create service for k3s-node
+- Ensure apiserver_endpoint is configured at all level
+
+# Post k3s install actions
+- Deploy metallb
+  - metal_lb_ip_range ensure is defined as desired as list at all level within the context of other ips
+  - metal_lb_mode - layer2 for ip address based routing, bgp can be used as well for internetwork comms (out of scope)
+- Cleanup temp directory (/tmp/k3s)
+
+# PVC Provisioner
+
+# Nextcloud
 
 # Whats next
-- K3s control
-  - Understand and document k3s-init transient service (systemd-run) - extra_server_args, server_init_args
-  - Understand and document the k3s server arguments for initialization for cases where there is only one master node
-  - Understand and document k3s server service arguments - server_init_args
-  - Understand role of VIP
-  - Understand metallb
-  - Undersand the work needed to change from master to control plane
-- K3s data
 - PVC provisioner
 - NextCloud setup
 

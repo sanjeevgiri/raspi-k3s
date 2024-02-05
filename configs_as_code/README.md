@@ -113,7 +113,18 @@ ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini -e "nfs_client_st
 - Variables
   - systemd_dir
   - system_timezone
-- 
+
+```shell
+# NFS Checks
+ansible-playbook site_k3s_cluster.yml --check -i ./inventory/hosts.ini
+ansible-playbook site_k3s_cluster.yml --check -i ./inventory/hosts.ini -e "nfs_client_state=absent"
+
+# NFS Apply
+ansible-playbook site_k3s_cluster.yml -i ./inventory/hosts.ini
+
+# NFS Undo
+ansible-playbook site_k3s_cluster.yml -i ./inventory/hosts.ini -e "nfs_client_state=absent"
+```
 
 # Configure K3s Control Nodes
 - Cleanup prior initialization transient services
@@ -191,7 +202,8 @@ Metallb
 # Nextcloud
 
 # Whats next
-- PVC provisioner
+- PVC provisioner or local
+- Database pgsql with PVC
 - NextCloud setup
 
 

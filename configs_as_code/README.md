@@ -198,12 +198,20 @@ Metallb
 - Cleanup temp directory (/tmp/k3s)
 
 # PVC Provisioner
+- We may not need this
+
+# Postgres sql database with PVC
 
 # Nextcloud
 
-# Whats next
-- PVC provisioner or local
-- Database pgsql with PVC
-- NextCloud setup
+# Empty image backup
+
+# Post script image backups
+
+# Where I am
+Completed reviewing k3s cluster script
+
+# What next
+Start working on k3s master scripts
 
 

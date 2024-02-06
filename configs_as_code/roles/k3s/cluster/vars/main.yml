@@ -1,2 +1,3 @@
+k3s_cluster_state: present
 systemd_dir: /usr/local/bin/k3s
 system_timezone: Etc/UTC

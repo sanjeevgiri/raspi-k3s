@@ -20,7 +20,7 @@
 - name: Install linux-modules-extra-raspi
   apt:
     name: linux-modules-extra-raspi
-    state: present
+    state: '{{k3s_cluster_state}}'
 
 - name: Set timezone to UTC
   community.general.timezone:
@@ -30,19 +30,19 @@
   sysctl:
     name: net.ipv4.ip_forward
     value: "1"
-    state: present
+    state: '{{k3s_cluster_state}}'
     reload: yes
 
 - name: Enable IPv6 forwarding
   sysctl:
     name: net.ipv6.conf.all.forwarding
     value: "1"
-    state: present
+    state: '{{k3s_cluster_state}}'
     reload: yes
 
 - name: Enable IPv6 router advertisements
   sysctl:
     name: net.ipv6.conf.all.accept_ra
     value: "2"
-    state: present
+    state: '{{k3s_cluster_state}}'
     reload: yes

@@ -8,6 +8,20 @@
     group: root
     mode: 0755
 
+# This step is required during image creation time
+#- name: Enable cgroup via boot commandline if not already enabled for Ubuntu on a Raspberry Pi
+#  lineinfile:
+#    path: /boot/firmware/cmdline.txt
+#    backrefs: yes
+#    regexp: '^((?!.*\bcgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory\b).*)$'
+#    line: '\1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory'
+#  notify: reboot
+
+- name: Install linux-modules-extra-raspi
+  apt:
+    name: linux-modules-extra-raspi
+    state: present
+
 - name: Set timezone to UTC
   community.general.timezone:
     name: '{{system_timezone}}'
@@ -32,17 +46,3 @@
     value: "2"
     state: present
     reload: yes
-
-# This step is required during image creation time
-#- name: Enable cgroup via boot commandline if not already enabled for Ubuntu on a Raspberry Pi
-#  lineinfile:
-#    path: /boot/firmware/cmdline.txt
-#    backrefs: yes
-#    regexp: '^((?!.*\bcgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory\b).*)$'
-#    line: '\1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory'
-#  notify: reboot
-
-- name: Install linux-modules-extra-raspi
-  apt:
-    name: linux-modules-extra-raspi
-    state: present

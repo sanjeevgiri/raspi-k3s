@@ -35,3 +35,25 @@
                       --unit=k3s-init \
                       k3s server {{ server_init_args }}"
     creates: "{{ systemd_dir }}/k3s-init.service"
+
+# Verify all control nodes have joined the cluster and save k3s init logs
+- name: Verification
+  when: not ansible_check_mode
+  block:
+    - name: Verify that all nodes actually joined (check k3s-init.service if this fails)
+      command:
+        cmd: k3s kubectl get nodes -l "node-role.kubernetes.io/master=true" -o=jsonpath="{.items[*].metadata.name}"
+      register: nodes
+      until: nodes.rc == 0 and (nodes.stdout.split() | length) == (groups[k3s_cn_group_name | default('k3s_control_nodes')] | length)  # yamllint disable-line rule:line-length
+      retries: 45
+      delay: 10
+      changed_when: false
+  always:
+    - name: Save logs of k3s-init.service
+      include_tasks: fetch_k3s_init_logs.yml
+    - name: Kill the temporary service used for initialization
+      systemd:
+        name: k3s-init
+        state: stopped
+      failed_when: false
+

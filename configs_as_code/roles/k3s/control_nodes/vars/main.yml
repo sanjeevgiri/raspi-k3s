@@ -53,3 +53,6 @@ k3s_cn_extra_server_args: >-
   --tls-san {{ k3s_cn_apiserver_endpoint }}
   --disable servicelb
   --disable traefik
+
+# init log directory
+k3s_cn_log_destination: "/var/log/k3s-init"

@@ -159,13 +159,13 @@ ansible-playbook site_k3s_cluster.yml -i ./inventory/hosts.ini -e "k3s_cluster_s
 ```shell
 # Checks
 ansible-playbook site_k3s_control_nodes.yml --check -i ./inventory/hosts.ini
-ansible-playbook site_k3s_control_nodes.yml --check -i ./inventory/hosts.ini -e "k3s_control_state=absent"
+ansible-playbook site_k3s_control_nodes.yml --check -i ./inventory/hosts.ini -e "k3s_cn_state=absent"
 
 # Apply
 ansible-playbook site_k3s_control_nodes.yml -i ./inventory/hosts.ini
 
 # Undo
-ansible-playbook site_k3s_control_nodes.yml -i ./inventory/hosts.ini -e "k3s_control_state=absent"
+ansible-playbook site_k3s_control_nodes.yml -i ./inventory/hosts.ini -e "k3s_cn_state=absent"
 
 ```
 

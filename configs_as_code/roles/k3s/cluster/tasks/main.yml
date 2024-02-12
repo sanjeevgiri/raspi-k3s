@@ -3,7 +3,7 @@
   get_url:
     url: https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/k3s-arm64
     checksum: sha256:https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/sha256sum-arm64.txt
-    dest: '{{systemd_dir}}'
+    dest: '{{k3s_cluster_systemd_dir}}'
     owner: root
     group: root
     mode: 0755
@@ -24,7 +24,7 @@
 
 - name: Set timezone to UTC
   community.general.timezone:
-    name: '{{system_timezone}}'
+    name: '{{k3s_cluster_system_timezone}}'
 
 - name: Enable IPv4 forwarding
   sysctl:

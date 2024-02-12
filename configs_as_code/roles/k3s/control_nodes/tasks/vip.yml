@@ -6,16 +6,16 @@
     owner: root
     group: root
     mode: 0644
-  when: ansible_hostname == hostvars[groups[group_name_control_nodes | default('k3s_control_nodes')][0]]['ansible_hostname']
+  when: ansible_hostname == hostvars[groups[k3s_cn_group_name | default('k3s_control_nodes')][0]]['ansible_hostname']
 
 - name: Download vip rbac manifest to first master
   ansible.builtin.get_url:
-    url: "https://raw.githubusercontent.com/kube-vip/kube-vip/{{ kube_vip_tag_version }}/docs/manifests/rbac.yaml"
+    url: "https://raw.githubusercontent.com/kube-vip/kube-vip/{{ k3s_cn_kube_vip_tag_version }}/docs/manifests/rbac.yaml"
     dest: "/var/lib/rancher/k3s/server/manifests/vip-rbac.yaml"
     owner: root
     group: root
     mode: 0644
-  when: ansible_hostname == hostvars[groups[group_name_control_nodes | default('k3s_control_nodes')][0]]['ansible_hostname']
+  when: ansible_hostname == hostvars[groups[k3s_cn_group_name | default('k3s_control_nodes')][0]]['ansible_hostname']
 
 - name: Copy vip manifest to first master
   template:
@@ -24,4 +24,4 @@
     owner: root
     group: root
     mode: 0644
-  when: ansible_hostname == hostvars[groups[group_name_control_nodes | default('k3s_control_nodes')][0]]['ansible_hostname']
+  when: ansible_hostname == hostvars[groups[k3s_cn_group_name | default('k3s_control_nodes')][0]]['ansible_hostname']

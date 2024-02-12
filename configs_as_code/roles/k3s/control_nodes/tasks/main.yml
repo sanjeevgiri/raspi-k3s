@@ -1,0 +1,37 @@
+# --- Cleanup prior initialization transient services ---
+# Ignore failures for cases where the service does not yet exist
+- name: Stop k3s-init
+  systemd:
+    name: k3s-init
+    state: stopped
+  failed_when: false
+
+# k3s-init won't work if the port is already in use (failed_when: false - ignore errors)
+- name: Stop k3s
+  systemd:
+    name: k3s
+    state: stopped
+  failed_when: false
+
+- name: Clean previous runs of k3s-init  # noqa command-instead-of-module
+  # The systemd module does not support "reset-failed", so we need to resort to command.
+  command: systemctl reset-failed k3s-init
+  failed_when: false
+  changed_when: false
+
+# --- Deploy vip (VIP allocates virtual ip to control nodes and can be thought of as a LB for control nodes) --- ------------
+- name: Deploy vip manifest
+  include_tasks: vip.yml
+
+- name: Deploy kube-vip manifest
+  include_tasks: kube-vip.yml
+  tags: kubevip
+
+# Initialization with systemd-run (transient service) and parameters - `extra_server_args, server_init_args`
+- name: Init cluster inside the transient k3s-init service
+  command:
+    cmd: "systemd-run -p RestartSec=2 \
+                      -p Restart=on-failure \
+                      --unit=k3s-init \
+                      k3s server {{ server_init_args }}"
+    creates: "{{ systemd_dir }}/k3s-init.service"

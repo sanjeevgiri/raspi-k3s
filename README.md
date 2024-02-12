@@ -46,12 +46,15 @@ Follow steps outlined in section 1.2, with one minor modification > `hostname no
 
 Example using my subnet settings
 
-| Device | IP Address |
-| --- | --- |
-| NFS Server | 192.168.86.10 |
-| k3s main | 192.168.86.100 |
-| k3s node1 | 192.168.86.110 |
-| k3s node2 | 192.168.86.111 |
+| Device                  | IP Address       |
+|-------------------------|------------------|
+| NFS Server              | 192.168.86.10    |
+| k3s vip control node ip | 192.168.86.20    |
+| k3s vip alb ip          | 192.168.86.30-39 |
+| k3s main                | 192.168.86.100   |
+| k3s node1               | 192.168.86.110   |
+| k3s node2               | 192.168.86.111   |
+
 
 #### 1.5.2 SSH Configurations
 

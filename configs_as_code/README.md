@@ -115,21 +115,21 @@ ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini -e "nfs_client_st
   - system_timezone
 
 ```shell
-# NFS Checks
+# Checks
 ansible-playbook site_k3s_cluster.yml --check -i ./inventory/hosts.ini
-ansible-playbook site_k3s_cluster.yml --check -i ./inventory/hosts.ini -e "nfs_client_state=absent"
+ansible-playbook site_k3s_cluster.yml --check -i ./inventory/hosts.ini -e "k3s_cluster_state=present"
 
-# NFS Apply
+# Apply
 ansible-playbook site_k3s_cluster.yml -i ./inventory/hosts.ini
 
-# NFS Undo
-ansible-playbook site_k3s_cluster.yml -i ./inventory/hosts.ini -e "nfs_client_state=absent"
+# Undo
+ansible-playbook site_k3s_cluster.yml -i ./inventory/hosts.ini -e "k3s_cluster_state=absent"
 ```
 
 # Configure K3s Control Nodes
 - Cleanup prior initialization transient services
 - Deploy vip (VIP allocates virtual ip to control nodes and can be thought of as a LB for control nodes)
-- Deploy metallb (replace traefik with metallb, lb for applications)
+- Deploy metallb (replace traefik with metallb, lb for applications), attempt to use VIP for applications as well
 - Initialization with systemd-run (transient service) and parameters - `extra_server_args, server_init_args`
 - Verify all control nodes have joined the cluster and save k3s init logs
 - Copy and enable k3s service
@@ -155,6 +155,20 @@ ansible-playbook site_k3s_cluster.yml -i ./inventory/hosts.ini -e "nfs_client_st
   - metal_lb_controller_tag_version current 0.13.10 used 0.13.9
   - https://github.com/metallb/metallb/tree/main/config/manifests
 - Update metallb manifest speaker docker image to specific version if needed (may skip this and start out with same)
+
+```shell
+# Checks
+ansible-playbook site_k3s_control_nodes.yml --check -i ./inventory/hosts.ini
+ansible-playbook site_k3s_control_nodes.yml --check -i ./inventory/hosts.ini -e "k3s_control_state=absent"
+
+# Apply
+ansible-playbook site_k3s_control_nodes.yml -i ./inventory/hosts.ini
+
+# Undo
+ansible-playbook site_k3s_control_nodes.yml -i ./inventory/hosts.ini -e "k3s_control_state=absent"
+
+```
+
 
 ## K3 Control Nodes Variables:
 K3s Server
@@ -211,7 +225,7 @@ Metallb
 # Where I am
 Completed reviewing k3s cluster script
 
-# What next
-Start working on k3s master scripts
+# What next![img.png](img.png)
+Stipts
 
 

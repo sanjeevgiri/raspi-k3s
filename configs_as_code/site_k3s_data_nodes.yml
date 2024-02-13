@@ -2,4 +2,4 @@
   gather_facts: true
   become: yes
   roles:
-    - role: roles/k3s/data
+    - role: roles/k3s/data_nodes

@@ -1,2 +1,1 @@
 k3s_cluster_state: present
-k3s_cluster_system_timezone: Etc/UTC

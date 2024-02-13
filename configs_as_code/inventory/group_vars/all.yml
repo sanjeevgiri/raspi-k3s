@@ -1,4 +1,5 @@
 systemd_dir: /etc/systemd/system
+system_timezone: Etc/UTC
 ansible_username: ansible
 ansible_userhome: /home/ansible
 ansible_uid: 2000

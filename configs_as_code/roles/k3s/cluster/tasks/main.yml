@@ -22,10 +22,6 @@
     name: linux-modules-extra-raspi
     state: '{{k3s_cluster_state}}'
 
-- name: Set timezone to UTC
-  community.general.timezone:
-    name: '{{k3s_cluster_system_timezone}}'
-
 - name: Enable IPv4 forwarding
   sysctl:
     name: net.ipv4.ip_forward

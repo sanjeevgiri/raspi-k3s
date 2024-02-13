@@ -3,7 +3,7 @@
   get_url:
     url: https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/k3s-arm64
     checksum: sha256:https://github.com/k3s-io/k3s/releases/download/{{ k3s_version }}/sha256sum-arm64.txt
-    dest: '{{k3s_cluster_systemd_dir}}'
+    dest: '{{systemd_dir}}'
     owner: root
     group: root
     mode: 0755

@@ -1,21 +1,21 @@
 ---
 - name: Ansible user group
   group:
-    name: '{{amn_groupname}}'
-    gid: '{{amn_gid}}'
+    name: '{{ansible_groupname}}'
+    gid: '{{ansible_gid}}'
     state: '{{amn_state}}'
 
 - name: Ansible user
   user:
-    name: '{{amn_username}}'
-    uid: '{{amn_uid}}'
+    name: '{{ansible_username}}'
+    uid: '{{ansible_uid}}'
     shell: /bin/bash
-    groups: '{{amn_groupname}}'
-    home: '{{amn_userhome}}'
+    groups: '{{ansible_groupname}}'
+    home: '{{ansible_userhome}}'
     state: '{{amn_state}}'
 
 - name: Create .ssh directory
   file:
-    path: '{{amn_userhome}}/.ssh'
+    path: '{{ansible_userhome}}/.ssh'
     state: "{{ (amn_state == 'present') | ternary('directory', 'absent') }}"
     mode: '0755'

@@ -4,23 +4,18 @@
     name: ansible_managed_nodes
     tasks_from: ansible_user
   vars:
-    amn_uid: '{{acn_uid}}'
-    amn_username: '{{acn_username}}'
-    amn_userhome: '{{acn_userhome}}'
-    amn_gid: '{{acn_gid}}'
-    amn_groupname: '{{acn_groupname}}'
     amn_state: '{{acn_state}}'
 
 - name: Check if the .ssh directory exists
   stat:
-    path: '{{acn_userhome}}/.ssh'
+    path: '{{ansible_userhome}}/.ssh'
   register: ansible_user_ssh_dir
 
 # For state - absent this file will be removed as a part of directory deletion
 - name: Generate an OpenSSH keypair using ed25519
   community.crypto.openssh_keypair:
-    path: '{{acn_userhome}}/.ssh/id_rsa'
-    owner: '{{acn_username}}'
-    group: '{{acn_groupname}}'
+    path: '{{ansible_userhome}}/.ssh/id_rsa'
+    owner: '{{ansible_username}}'
+    group: '{{aansible_groupname}}'
     type: ed25519
   when: ansible_user_ssh_dir.stat.isdir is defined and ansible_user_ssh_dir.stat.isdir

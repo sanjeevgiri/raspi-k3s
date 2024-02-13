@@ -1,8 +1,3 @@
 ---
 # ACN - Ansible control node
 acn_state: present
-acn_username: ansible
-acn_userhome: /home/ansible
-acn_uid: 2000
-acn_groupname: ansible
-acn_gid: 2000

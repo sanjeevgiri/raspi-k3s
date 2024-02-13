@@ -1,0 +1,6 @@
+systemd_dir: /etc/systemd/system
+ansible_username: ansible
+ansible_userhome: /home/ansible
+ansible_uid: 2000
+ansible_groupname: ansible
+ansible_gid: 2000

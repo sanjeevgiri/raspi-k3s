@@ -9,8 +9,8 @@
     path: '{{nfs_client_mount_point}}'
     state: 'directory'
     mode: '0755'
-    owner: '{{nfs_client_username}}'
-    group: '{{nfs_client_groupname}}'
+    owner: '{{ansible_username}}'
+    group: '{{ansible_groupname}}'
   when: nfs_client_state == 'present'
 
 - name: Mount NFS volume

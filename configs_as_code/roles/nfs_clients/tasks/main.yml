@@ -4,7 +4,7 @@
     name: 'nfs-common'
     state: '{{nfs_client_state}}'
 
-- name: Prepare mount point
+- name: 'Prepare mount point {{is_unmounted}}'
   file:
     path: '{{nfs_client_mount_point}}'
     state: 'directory'

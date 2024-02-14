@@ -12,7 +12,7 @@
     owner: '{{ansible_username}}'
     group: '{{ansible_groupname}}'
   vars:
-    is_unmounted: "'{{nfs_client_mount_point}}' is not mount"
+    is_unmounted: '/mnt/nfs/pioneer1' is not ansible.builtin.mount
   when: nfs_client_state == 'present' and is_unmounted == 'true'
 
 

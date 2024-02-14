@@ -16,7 +16,7 @@
   community.crypto.openssh_keypair:
     path: '{{ansible_userhome}}/.ssh/id_rsa'
     owner: '{{ansible_username}}'
-    group: '{{aansible_groupname}}'
+    group: '{{ansible_groupname}}'
     type: ed25519
   when: ansible_user_ssh_dir.stat.isdir is defined and ansible_user_ssh_dir.stat.isdir
 

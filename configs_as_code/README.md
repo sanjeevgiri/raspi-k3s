@@ -70,7 +70,13 @@ ls -la /home/ansible/.ssh
 # Performing package and security updates/upgrades
 ```shell
 ansible-playbook site_update.yml --check -i ./inventory/hosts.ini
-ansible-playbook site-update.yml -i ./inventory/hosts.ini
+ansible-playbook site_update.yml -i ./inventory/hosts.ini
+
+# if update fails due to certs, - sudo apt install ca-certificates
+# TODO code the cert install if it works
+sudo apt update
+sudo apt upgrade
+sudo apt autoremove
 ```
 
 # Configure NFS Sever

@@ -4,7 +4,7 @@
     name: 'nfs-common'
     state: '{{nfs_client_state}}'
 
-- name: 'Prepare mount point {{is_unmounted}}'
+- name: 'Prepare mount point if unmounted - {{is_unmounted}}'
   file:
     path: '{{nfs_client_mount_point}}'
     state: 'directory'
@@ -12,7 +12,7 @@
     owner: '{{ansible_username}}'
     group: '{{ansible_groupname}}'
   vars:
-    is_unmounted: "{{'/mnt/nfs/pioneer1' is not mount}}"
+    is_unmounted: "{{nfs_client_mount_point is not mount}}"
   when: nfs_client_state == 'present' and is_unmounted == 'true'
 
 

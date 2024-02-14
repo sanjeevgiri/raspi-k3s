@@ -13,7 +13,7 @@
     group: '{{ansible_groupname}}'
   vars:
     is_unmounted: "{{'/mnt/nfs/poineer1' is not mount}}"
-  when: nfs_client_state == 'present' and is_unmounted == 'False'
+  when: nfs_client_state == 'present' and is_unmounted == 'True'
 
 
 - name: Mount NFS volume

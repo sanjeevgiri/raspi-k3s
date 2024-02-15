@@ -22,4 +22,4 @@
       debug:
         msg: "/etc/hosts blah {{hosts_dir}}"
       vars:
-        hosts_dir: "{{ '/etc/hosts' is not directory }}"
+        hosts_dir: '/etc/hosts' is not directory

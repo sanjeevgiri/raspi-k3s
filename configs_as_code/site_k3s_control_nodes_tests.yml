@@ -3,7 +3,7 @@
   become: yes
   vars:
     k3s_cn_group_name: k3s_control_nodes
-    nested_dir: /home/ansible/sanjeev/giri
+    nested_dir: /var/lib/rancher/k3s/server/manifests
   tasks:
     - name: Create manifests directory on first master
       file:

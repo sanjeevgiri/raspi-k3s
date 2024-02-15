@@ -21,4 +21,4 @@
     - name: anded directory check
       debug:
         msg: "{{nfs_mount_point}} not a directory and present"
-      when: "nfs_client_state == 'present' and nfs_mount_point is not directory"
+      when: "nfs_mount_point is directory"

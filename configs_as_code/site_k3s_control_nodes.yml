@@ -1,5 +1,15 @@
 - hosts: k3s_control_nodes
   gather_facts: true
   become: yes
-  roles:
-    - role: roles/k3s/control_nodes
+  vars:
+    k3s_cn_group_name: k3s_control_nodes
+    nested_dir: /home/ansible/sanjeev/giri
+  tasks:
+    - name: Create manifests directory on first master
+      file:
+        path: '{{nested_dir}}'
+        state: directory
+        owner: root
+        group: root
+        mode: 0644
+      when: ansible_hostname == hostvars[groups[k3s_cn_group_name | default('k3s_control_nodes')][0]]['ansible_hostname']

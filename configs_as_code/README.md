@@ -238,6 +238,9 @@ Stipts
 ```shell
 ansible-playbook site_mount_tests.yml -i ./inventory/hosts.ini
 ansible-playbook site_mount_tests.yml -i ./inventory/hosts.ini -e "nfs_mount_point=/mnt/fake"
+
+
+ansible-playbook site_mount_tests.yml -i ./inventory/hosts.ini
 ```
 
 

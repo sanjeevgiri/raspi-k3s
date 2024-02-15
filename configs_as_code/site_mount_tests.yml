@@ -14,7 +14,7 @@
     - name: is unmounted check
       debug:
         msg: is unmounted
-      when: "is not a mountpoint" in mountpoint_check.stdout
+      when: "'is not a mountpoint' in mountpoint_check.stdout"
 
 
 

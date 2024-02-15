@@ -3,6 +3,7 @@
   become: yes
   vars:
     nfs_mount_point: '/mnt/nfs/pioneer1'
+    nfs_client_state: 'present'
   tasks:
     - name: check mountpoint and store in var
       command: mountpoint {{nfs_mount_point}}
@@ -16,3 +17,8 @@
       debug:
         msg: is unmounted
       when: "'is not a mountpoint' in mountpoint_check.stdout"
+
+    - name: is unmounted check with and clause
+      debug:
+        msg: is unmounted anded
+      when: "'nfs_client_state == 'present' and 'is not a mountpoint' in mountpoint_check.stdout"

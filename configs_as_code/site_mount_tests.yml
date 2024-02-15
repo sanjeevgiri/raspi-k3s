@@ -20,6 +20,6 @@
 
     - name: directory check
       debug:
-        msg: "/etc/hosts blah {{hosts_dir}}"
+        msg: "{{ nfs_mount_point }} blah {{hosts_dir}}"
       vars:
         hosts_dir: "{{ nfs_mount_point is directory }}"

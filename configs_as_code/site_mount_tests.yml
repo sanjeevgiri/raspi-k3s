@@ -13,8 +13,8 @@
 
     - name: 'debug'
       debug:
-        message: yeah
-      when: nfs_client_state == 'present' and not nfs_mount_point_stat.stat.exists
+        message: "{{nfs_mount_point_stat.stat.isdir}}"
+      #when: nfs_client_state == 'present' and not nfs_mount_point_stat.stat.exists
 
 #    - name: check mountpoint and store in var
 #      command: mountpoint {{nfs_mount_point}}

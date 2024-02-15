@@ -14,8 +14,8 @@
   ansible.builtin.file:
     path: "{{ k3s_cn_log_destination }}"
     state: directory
-    owner: ansible_username
-    group: ansible_groupname
+    owner: '{{ansible_username}}'
+    group: '{{ansible_groupname}}'
     mode: "0755"
 
 - name: Store logs to {{ k3s_cn_log_destination }}
@@ -23,8 +23,8 @@
   ansible.builtin.template:
     src: content.j2
     dest: "{{ k3s_cn_log_destination }}/k3s-init@{{ ansible_hostname }}.log"
-    owner: ansible_username
-    group: ansible_groupname
+    owner: '{{ansible_username}}'
+    group: '{{ansible_groupname}}'
     mode: 0644
   vars:
     content: "{{ k3s_init_log.stdout }}"

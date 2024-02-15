@@ -4,9 +4,9 @@
     name: 'nfs-common'
     state: '{{nfs_client_state}}'
 
-- name: Check if the mount point directory exists
+- name: Get mount point stats
   stat:
-    path: nfs_client_mount_point
+    path: '{{nfs_client_mount_point}}'
   register: nfs_mount_point_stat
 
 - name: 'Prepare mount point if unmounted'

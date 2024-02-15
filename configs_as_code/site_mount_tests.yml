@@ -18,7 +18,7 @@
         msg: is unmounted
       when: "'is not a mountpoint' in mountpoint_check.stdout"
 
-    - name: is unmounted check with and clause
+    - name: anded directory check
       debug:
-        msg: is unmounted anded
-      when: "'nfs_client_state == 'present' and 'is not a mountpoint' in mountpoint_check.stdout"
+        msg: directory and present
+      when: "nfs_client_state == 'present' and nfs_mount_point is not directory"

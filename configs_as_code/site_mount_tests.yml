@@ -5,18 +5,18 @@
     nfs_mount_point: '/mnt/nfs/pioneer1'
     nfs_client_state: 'present'
   tasks:
-    - name: check mountpoint and store in var
-      command: mountpoint {{nfs_mount_point}}
-      register: mountpoint_check
-      failed_when: false
-
-    - debug:
-        msg: "{{mountpoint_check.stdout}}"
-
-    - name: is unmounted check
-      debug:
-        msg: is unmounted
-      when: "'is not a mountpoint' in mountpoint_check.stdout"
+#    - name: check mountpoint and store in var
+#      command: mountpoint {{nfs_mount_point}}
+#      register: mountpoint_check
+#      failed_when: false
+#
+#    - debug:
+#        msg: "{{mountpoint_check.stdout}}"
+#
+#    - name: is unmounted check
+#      debug:
+#        msg: is unmounted
+#      when: "'is not a mountpoint' in mountpoint_check.stdout"
 
     - name: anded directory check
       debug:

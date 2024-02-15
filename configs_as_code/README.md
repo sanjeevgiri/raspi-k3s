@@ -234,4 +234,10 @@ Completed reviewing k3s cluster script
 # What next![img.png](img.png)
 Stipts
 
+# Tests
+```shell
+ansible-playbook site_mount_tests.yml -i ./inventory/hosts.ini
+ansible-playbook site_mount_tests.yml -i ./inventory/hosts.ini -e "nfs_mount_point=/mnt/fake"
+```
+
 

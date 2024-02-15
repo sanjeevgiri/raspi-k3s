@@ -1,14 +1,32 @@
 - hosts: nfs_clients
-  gather_facts: true
+  gather_facts: false
   become: yes
   vars:
     nfs_mount_point: '/mnt/nfs/pioneer1'
   tasks:
-    - name: check if {{nfs_mount_point}} is mounted using (is_mount)
+    - name: 1
       debug:
-        msg: is {{nfs_mount_point}} mounted - {{is_mounted}}
+        msg: 1 is mounted - {{is_mounted}}
       vars:
-        is_mounted: "{{nfs_mount_point is is_mount}}"
+        is_mounted: "{{ '/mnt/nfs/pioneer1' is is_mount}}"
+
+    - name: 2
+      debug:
+        msg: 2 is mounted - {{is_mounted}}
+      vars:
+        is_mounted: "{{ '/mnt/nfs' is is_mount}}"
+
+    - name: 3
+      debug:
+        msg: 3 is mounted - {{is_mounted}}
+      vars:
+        is_mounted: "{{  '/mnt/nfs/pioneer1' is mount}}"
+
+    - name: 4
+      debug:
+        msg: 4 is mounted - {{is_mounted}}
+      vars:
+        is_mounted: '/mnt/nfs/pioneer1' is mount
 
 #    - name: check if {{nfs_mount_point}} is mounted using (mount)
 #      debug:

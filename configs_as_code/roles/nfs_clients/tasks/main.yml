@@ -4,16 +4,19 @@
     name: 'nfs-common'
     state: '{{nfs_client_state}}'
 
-- name: 'Prepare mount point if unmounted - {{is_unmounted}}'
+- name: Check if mount point exists
+  command: mountpoint {{nfs_client_mount_point}}
+  register: mountpoint_check
+  failed_when: false
+
+- name: 'Prepare mount point if unmounted'
   file:
     path: '{{nfs_client_mount_point}}'
     state: 'directory'
     mode: '0755'
     owner: '{{ansible_username}}'
     group: '{{ansible_groupname}}'
-  vars:
-    is_unmounted: "{{'/mnt/nfs/poineer1' is not is_mount}}"
-  when: nfs_client_state == 'present' and is_unmounted == 'True'
+  when: "nfs_client_state == 'present' and 'is not a mountpoint' in mountpoint_check.stdout"
 
 
 - name: Mount NFS volume

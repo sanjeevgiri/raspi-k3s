@@ -23,4 +23,4 @@
         msg: "{{ nfs_mount_point }} blah {{hosts_dir}}"
       vars:
         hosts_dir: "{{ nfs_mount_point is directory }}"
-      when: nfs_mount_point is directory
+      when: nfs_mount_point is directory and nfs_client_state == 'present'

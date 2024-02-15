@@ -21,4 +21,6 @@
     - name: directory check
       debug:
         msg: "{{nfs_mount_point}} is directory"
-      when: nfs_mount_point is directory
+      vars:
+        is_directory: "{{ nfs_mount_point is directory }}"
+      when: is_directory

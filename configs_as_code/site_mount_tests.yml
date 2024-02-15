@@ -8,7 +8,7 @@
       debug:
         msg: 1 is mounted - {{is_mounted}}
       vars:
-        is_mounted: "{{ '/mnt/nfs/pioneer1' is is_mount}}"
+        is_mounted: "{{ '/mnt/nfs/pioneer1' is ansible.builtin.is_mount}}"
 
     - name: 2
       debug:

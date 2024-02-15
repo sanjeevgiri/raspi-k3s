@@ -5,7 +5,6 @@
     nfs_mount_point: '/mnt/nfs/pioneer1'
     nfs_client_state: 'present'
   tasks:
-
     - name: Get mount point stats
       stat:
         path: '{{nfs_mount_point}}'

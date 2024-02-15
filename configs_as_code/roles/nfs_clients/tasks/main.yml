@@ -16,7 +16,7 @@
     mode: '0755'
     owner: '{{ansible_username}}'
     group: '{{ansible_groupname}}'
-  when: "nfs_client_state == 'present' and not nfs_mount_point_stat.stat.exists"
+  when: nfs_client_state == 'present' and not nfs_mount_point_stat.stat.exists
 
 
 - name: Mount NFS volume

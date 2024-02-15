@@ -20,5 +20,5 @@
 
     - name: anded directory check
       debug:
-        msg: "{{nfs_mount_point}} not a directory and present"
+        msg: "{{nfs_mount_point}} is directory"
       when: "nfs_mount_point is directory"

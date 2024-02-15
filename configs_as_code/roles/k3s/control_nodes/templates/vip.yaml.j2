@@ -30,7 +30,7 @@ spec:
           value: "true"
         - name: port
           value: "6443"
-{% if kube_vip_iface %}
+{% if k3s_cn_kube_vip_iface %}
         - name: vip_interface
           value: {{ k3s_cn_kube_vip_iface }}
 {% endif %}

@@ -5,9 +5,9 @@ metadata:
   name: kubevip
   namespace: kube-system
 data:
-{% if kube_vip_lb_ip_range is string %}
-{# kube_vip_lb_ip_range was used in the legacy way: single string instead of a list #}
+{% if k3s_cn_kube_vip_lb_ip_range is string %}
+{# k3s_cn_kube_vip_lb_ip_range was used in the legacy way: single string instead of a list #}
 {#   => transform to list with single element #}
-{% set kube_vip_lb_ip_range = [kube_vip_lb_ip_range] %}
+{% set k3s_cn_kube_vip_lb_ip_range = [k3s_cn_kube_vip_lb_ip_range] %}
 {% endif %}
-  range-global: {{ kube_vip_lb_ip_range | join(',') }}
+  range-global: {{ k3s_cn_kube_vip_lb_ip_range | join(',') }}

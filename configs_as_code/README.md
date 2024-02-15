@@ -25,6 +25,7 @@ sudo apt upgrade
 sudo apt install software-properties-common
 sudo add-apt-repository --yes --update ppa:ansible/ansible
 sudo apt install ansible
+sudo apt install --no-install-recommends python3-netaddr
 
 # Install git
 sudo apt install git-all

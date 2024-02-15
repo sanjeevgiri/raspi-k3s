@@ -22,5 +22,5 @@
       debug:
         msg: "{{nfs_mount_point}} is directory"
       vars:
-        is_directory: "{{ nfs_mount_point is directory }}"
+        is_directory: "{{ '/mnt/nfs/pioneer1' is directory }}"
       when: is_directory

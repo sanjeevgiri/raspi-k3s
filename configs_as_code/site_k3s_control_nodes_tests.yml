@@ -1,5 +1,5 @@
 - hosts: k3s_control_nodes
-  gather_facts: true
+  gather_facts: false
   become: yes
   vars:
     k3s_cn_group_name: k3s_control_nodes

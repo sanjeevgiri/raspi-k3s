@@ -32,10 +32,10 @@ spec:
           value: "6443"
 {% if kube_vip_iface %}
         - name: vip_interface
-          value: {{ kube_vip_iface }}
+          value: {{ k3s_cn_kube_vip_iface }}
 {% endif %}
         - name: vip_cidr
-          value: "{{ apiserver_endpoint | ansible.utils.ipsubnet | ansible.utils.ipaddr('prefix') }}"
+          value: "{{ k3s_cn_apiserver_endpoint | ansible.utils.ipsubnet | ansible.utils.ipaddr('prefix') }}"
         - name: cp_enable
           value: "true"
         - name: cp_namespace
@@ -43,7 +43,7 @@ spec:
         - name: vip_ddns
           value: "false"
         - name: svc_enable
-          value: "{{ 'true' if kube_vip_lb_ip_range is defined else 'false' }}"
+          value: "{{ 'true' if k3s_cn_kube_vip_lb_ip_range is defined else 'false' }}"
         - name: vip_leaderelection
           value: "true"
         - name: vip_leaseduration
@@ -53,8 +53,8 @@ spec:
         - name: vip_retryperiod
           value: "2"
         - name: address
-          value: {{ apiserver_endpoint }}
-        image: ghcr.io/kube-vip/kube-vip:{{ kube_vip_tag_version }}
+          value: {{ k3s_cn_apiserver_endpoint }}
+        image: ghcr.io/kube-vip/kube-vip:{{ k3s_cn_kube_vip_tag_version }}
         imagePullPolicy: Always
         name: kube-vip
         resources: {}

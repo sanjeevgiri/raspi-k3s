@@ -4,23 +4,38 @@
   vars:
     nfs_mount_point: '/mnt/nfs/pioneer1'
   tasks:
-    - name: 1
-      debug:
-        msg: 1 is mounted - {{is_mounted}}
-      vars:
-        is_mounted: "{{ '/mnt/nfs/pioneer1' is ansible.builtin.is_mount}}"
+    - name: check mountpoint and store in var
+      command: mountpoint {{nfs_mount_point}}
+      register: mountpoint_check
 
-    - name: 2
-      debug:
-        msg: 2 is mounted - {{is_mounted}}
-      vars:
-        is_mounted: "{{ '/mnt/nfs' is is_mount}}"
+    - debug:
+        msg: "{{mountpoint_check.stdout}}"
 
-    - name: 3
+    - name: is unmounted check
       debug:
-        msg: 3 is mounted - {{is_mounted}}
-      vars:
-        is_mounted: "{{  '/mnt/nfs/pioneer1' is mount}}"
+        msg: is unmounted
+      when: "is not a mountpoint" in mountpoint_check.stdout
+
+
+
+
+#    - name: 1
+#      debug:
+#        msg: 1 is mounted - {{is_mounted}}
+#      vars:
+#        is_mounted: "{{ '/mnt/nfs/pioneer1' is ansible.builtin.is_mount}}"
+#
+#    - name: 2
+#      debug:
+#        msg: 2 is mounted - {{is_mounted}}
+#      vars:
+#        is_mounted: "{{ '/mnt/nfs' is is_mount}}"
+#
+#    - name: 3
+#      debug:
+#        msg: 3 is mounted - {{is_mounted}}
+#      vars:
+#        is_mounted: "{{  '/mnt/nfs/pioneer1' is mount}}"
 
 
 #    - name: check if {{nfs_mount_point}} is mounted using (mount)

@@ -7,6 +7,7 @@
     - name: check mountpoint and store in var
       command: mountpoint {{nfs_mount_point}}
       register: mountpoint_check
+      failed_when: false
 
     - debug:
         msg: "{{mountpoint_check.stdout}}"

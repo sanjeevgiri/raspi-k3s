@@ -22,11 +22,6 @@
       vars:
         is_mounted: "{{  '/mnt/nfs/pioneer1' is mount}}"
 
-    - name: 4
-      debug:
-        msg: 4 is mounted - {{is_mounted}}
-      vars:
-        is_mounted: '/mnt/nfs/pioneer1' is mount
 
 #    - name: check if {{nfs_mount_point}} is mounted using (mount)
 #      debug:

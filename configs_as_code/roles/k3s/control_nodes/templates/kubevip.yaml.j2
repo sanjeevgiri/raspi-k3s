@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubevip
+  namespace: kube-system
+data:
+{% if k3s_cn_kube_vip_lb_ip_range is string %}
+{# k3s_cn_kube_vip_lb_ip_range was used in the legacy way: single string instead of a list #}
+{#   => transform to list with single element #}
+{% set k3s_cn_kube_vip_lb_ip_range = [k3s_cn_kube_vip_lb_ip_range] %}
+{% endif %}
+  range-global: {{ k3s_cn_kube_vip_lb_ip_range | join(',') }}

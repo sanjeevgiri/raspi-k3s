@@ -1,0 +1,49 @@
+k3s_cn_state: present
+
+# image tag for kube-vip
+k3s_cn_kube_vip_tag_version: "v0.6.4"
+
+# If you want to explicitly define an interface that ALL control nodes
+# should use to propagate the VIP, define it here. Otherwise, kube-vip
+# will determine the right interface automatically at runtime.
+k3s_cn_kube_vip_iface: null
+
+# kube-vip ip range for load balancer
+k3s_cn_kube_vip_lb_ip_range: "192.168.86.30-1192.168.86.39"
+
+# tag for kube-vip-cloud-provider manifest
+# https://github.com/kube-vip/kube-vip-cloud-provider/releases
+k3s_cn_kube_vip_cloud_provider_tag_version: "v0.0.9"
+
+# interface which will be used for flannel
+k3s_cn_flannel_iface: "eth0"
+
+# The IP on which the node is reachable in the cluster.
+# Here, a sensible default is provided, you can still override
+# it for each of your hosts, though.
+k3s_cn_node_ip: "{{ ansible_facts[(k3s_cn_flannel_iface)]['ipv4']['address'] }}"
+
+# yamllint disable rule:line-length
+k3s_cn_server_init_args: >-
+  {% if groups[k3s_cn_group_name | default('k3s_control_nodes')] | length > 1 %}
+    {% if ansible_hostname == hostvars[groups[k3s_cn_group_name | default('k3s_control_nodes')][0]]['ansible_hostname'] %}
+      --cluster-init
+    {% else %}
+      --server https://{{ hostvars[groups[k3s_cn_group_name | default('k3s_control_nodes')][0]].k3s_node_ip | split(",") | first | ansible.utils.ipwrap }}:6443
+    {% endif %}
+    --token {{ k3s_cn_token }}
+  {% endif %}
+  {{ extra_server_args | default('') }}
+
+# change these to your liking, the only required are: --disable servicelb, --tls-san {{ apiserver_endpoint }}
+# the contents of the if block is also required if using calico or cilium
+k3s_cn_extra_server_args: >-
+  --flannel-iface={{ k3s_cn_flannel_iface }}
+  --node-ip={{ k3s_cn_node_ip }}
+  --node-taint node-role.kubernetes.io/master=true:NoSchedule
+  --tls-san {{ k3s_cn_apiserver_endpoint }}
+  --disable servicelb
+  --disable traefik
+
+# init log directory
+k3s_cn_log_destination: "/var/log/k3s-init"

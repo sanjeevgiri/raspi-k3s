@@ -1,0 +1,36 @@
+- hosts: nfs_clients
+  gather_facts: false
+  become: yes
+  vars:
+    nfs_mount_point: '/mnt/nfs/pioneer1'
+    nfs_client_state: 'present'
+  tasks:
+    - name: Get mount point stats
+      stat:
+        path: '{{nfs_mount_point}}'
+      register: nfs_mount_point_stat
+
+    - name: 'debug'
+      debug:
+        msg: "{{nfs_mount_point_stat.stat.exists}}"
+      when: nfs_client_state == 'present' and not nfs_mount_point_stat.stat.exists
+
+#    - name: check mountpoint and store in var
+#      command: mountpoint {{nfs_mount_point}}
+#      register: mountpoint_check
+#      failed_when: false
+#
+#    - debug:
+#        msg: "{{mountpoint_check.stdout}}"
+#
+#    - name: is unmounted check
+#      debug:
+#        msg: is unmounted
+#      when: "'is not a mountpoint' in mountpoint_check.stdout"
+
+#    - name: directory check
+#      debug:
+#        msg: "{{ nfs_mount_point }} blah {{hosts_dir}}"
+#      vars:
+#        hosts_dir: "{{ nfs_mount_point is directory }}"
+#      when: nfs_mount_point is directory and nfs_client_state == 'present'

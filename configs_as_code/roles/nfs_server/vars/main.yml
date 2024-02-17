@@ -1,8 +1,5 @@
 ---
 nfs_server_state: present
-nfs_server_username: ansible
-nfs_server_groupname: ansible
-nfs_server_uid: 2000
 
 # Mount paths will always be prefixed with /mnt. For example mount path /usbs will create evaluate to /mnt/usbs being created as a mount point
 nfs_server_ext_drive_mnt_path: 'usbs'

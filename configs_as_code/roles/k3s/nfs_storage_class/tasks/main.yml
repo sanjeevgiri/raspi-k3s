@@ -13,4 +13,4 @@
 
 - name: test 2
   debug:
-    msg: {{nfs_sc_first_control_node}}
+    msg: "{{nfs_sc_first_control_node}}"

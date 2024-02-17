@@ -239,9 +239,14 @@ ansible-playbook site_k3s_nfs_storage_class.yml -i ./inventory/hosts.ini
 ansible-playbook site_k3s_nfs_storage_class.yml -i ./inventory/hosts.ini -e "nfs_sc_state=absent"
 ```
 
-# Postgres sql database with PVC
-
 # Nextcloud
+```shell
+# Apply
+ansible-playbook site_k3s_nfs_storage_class.yml -i ./inventory/hosts.ini
+# Undo
+ansible-playbook site_k3s_nfs_storage_class.yml -i ./inventory/hosts.ini -e "nfs_sc_state=absent"
+
+```
 
 # Empty image backup
 

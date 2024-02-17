@@ -64,6 +64,7 @@ metadata:
   name: {{nextcloud_nm}}-lb
 spec:
   type: LoadBalancer
+  loadBalancerIP: {{nextcloud_db_lb_ip}}
   selector:
     app: {{nextcloud_nm}}-db
   ports:

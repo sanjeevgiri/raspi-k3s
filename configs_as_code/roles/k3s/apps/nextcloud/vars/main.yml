@@ -5,3 +5,6 @@ nextcloud_db_user: ncau
 nextcloud_db_password: ncap
 nextcloud_db_sc: nfs-pioneer1
 nextcloud_db_version: 16.2
+
+# This IP must be wihin the range specified in the k3s_cn_kube_vip_lb_ip_range variable
+nextcloud_db_lb_ip: 192.168.86.30

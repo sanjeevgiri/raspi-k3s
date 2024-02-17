@@ -8,7 +8,7 @@ spec:
   repo: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
   targetNamespace: default
   set:
-    nfs.server: {{nfs_sc_server}}
-    nfs.path: {{nfs_sc_path}}
+    nfs.server: {{nfs_server_ip}}
+    nfs.path: {{nfs_server_mount}}
     storageClass.reclaimPolicy: Retain
     storageClass.name: {{nfs_sc_name}}

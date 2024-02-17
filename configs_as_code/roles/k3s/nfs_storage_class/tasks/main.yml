@@ -6,12 +6,3 @@
     group: root
     mode: 0644
   when: nfs_sc_first_control_node
-
-- name: test
-  debug:
-    msg: test
-  when: nfs_sc_first_control_node
-
-- name: test 2
-  debug:
-    msg: "what is this value {{nfs_sc_first_control_node}}"

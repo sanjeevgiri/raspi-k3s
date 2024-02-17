@@ -1,6 +1,6 @@
 - name: Create a k8s namespace
   kubernetes.core.k8s:
-    name: {{ nextcloud_name }}
+    name: "{{ nextcloud_name }}"
     api_version: v1
     kind: Namespace
     state: present
@@ -9,14 +9,14 @@
 - name: Provision postgresql db server
   kubernetes.core.k8s:
     state: present
-    namespace: {{ nextcloud_namespace }}
+    namespace: "{{ nextcloud_namespace }}"
     template: 'pgsql.server.j2'
   when: k3s_first_cn and nextcloud_state == "present"
 
 - name: (Cleanup) Deprovision postgresql db server
   kubernetes.core.k8s:
     state: absent
-    namespace: { { nextcloud_namespace } }
+    namespace: "{{ nextcloud_namespace }}"
     template: 'pgsql.server.j2'
   when: k3s_first_cn and nextcloud_state == "absent"
 

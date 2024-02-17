@@ -43,3 +43,11 @@
     value: "2"
     state: '{{k3s_cluster_state}}'
     reload: yes
+
+- name: Install pre-requisites for executing k8s and k3s modules
+  pip:
+    name:
+      - openshift
+      - pyyaml
+      - kubernetes
+      - jsonpatch

@@ -1,7 +1,16 @@
-- name: Deploy nfs storage class provisioner
-  template:
-    src: "nfs.helmchart.j2"
-    dest: "/var/lib/rancher/k3s/server/manifests/nfs.yml"
-    owner: root
-    group: root
-    mode: 0644
+#- name: Deploy nfs storage class provisioner
+#  template:
+#    src: "nfs.helmchart.j2"
+#    dest: "/var/lib/rancher/k3s/server/manifests/nfs.yml"
+#    owner: root
+#    group: root
+#    mode: 0644
+
+- name: test
+  debug:
+    msg: test
+  when: nfs_sc_first_control_node == 'true'
+
+- name: test 2
+  debug:
+    msg: {{nfs_sc_first_control_node}}

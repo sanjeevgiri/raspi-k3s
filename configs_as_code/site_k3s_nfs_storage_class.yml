@@ -1,0 +1,5 @@
+- hosts: k3s_control_nodes
+  gather_facts: true
+  become: yes
+  roles:
+    - role: roles/k3s/nfs_storage_class

@@ -231,8 +231,13 @@ ansible-playbook site_k3s_data_nodes.yml -i ./inventory/hosts.ini -e "k3s_dn_sta
   - metal_lb_mode - layer2 for ip address based routing, bgp can be used as well for internetwork comms (out of scope)
 - Cleanup temp directory (/tmp/k3s)
 
-# PVC Provisioner
-
+# Storage class / Dynamic PV Provisioner
+```shell
+# Apply
+ansible-playbook site_k3s_nfs_storage_class.yml -i ./inventory/hosts.ini
+# Undo
+ansible-playbook site_k3s_nfs_storage_class.yml -i ./inventory/hosts.ini -e "nfs_sc_state=absent"
+```
 
 # Postgres sql database with PVC
 

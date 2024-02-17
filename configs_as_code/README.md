@@ -242,9 +242,9 @@ ansible-playbook site_k3s_nfs_storage_class.yml -i ./inventory/hosts.ini -e "nfs
 # Nextcloud
 ```shell
 # Apply
-ansible-playbook site_k3s_nfs_storage_class.yml -i ./inventory/hosts.ini
+ansible-playbook site_k3s_nextcloud.yml -i ./inventory/hosts.ini
 # Undo
-ansible-playbook site_k3s_nfs_storage_class.yml -i ./inventory/hosts.ini -e "nfs_sc_state=absent"
+ansible-playbook site_k3s_nextcloud.yml -i ./inventory/hosts.ini -e "nfs_sc_state=absent"
 
 ```
 

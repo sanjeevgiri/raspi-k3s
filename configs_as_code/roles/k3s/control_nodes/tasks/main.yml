@@ -166,11 +166,9 @@
     label: "{{ item.path }}"
 
 # Post server provisioning tasks, store kubeconfig (need to verify if this works with multi control node cluster)
-- name: Copying kubeconfig from {{ hostvars[groups[group_name_master | default('master')][0]]['ansible_hostname'] }}
+- name: Copying kubeconfig from {{ hostvars[groups[k3s_cn_group_name | default('k3s_control_nodes')][0]]['ansible_hostname'] }}
   ansible.builtin.fetch:
     src: "{{ ansible_userhome }}/.kube/config"
     dest: ./kubeconfig
     flat: true
   when: ansible_hostname == hostvars[groups[k3s_cn_group_name | default('k3s_control_nodes')][0]]['ansible_hostname']
-
-

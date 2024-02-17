@@ -5,6 +5,7 @@
     owner: root
     group: root
     mode: 0755
+  when: k3s_dn_state == 'present'
 
 - name: Enable and check K3s service
   systemd:
@@ -12,3 +13,17 @@
     daemon_reload: true
     state: restarted
     enabled: true
+  when: k3s_dn_state == 'present'
+
+- name: (Cleanup) Stop k3s service
+  systemd:
+      name: k3s-node
+      state: stopped
+      enabled: false
+  when: k3s_dn_state == 'absent'
+
+- name: (Cleanup) Remove k3s service file
+  file:
+      path: "{{ systemd_dir }}/k3s-node.service"
+      state: absent
+  when: k3s_dn_state == 'absent'

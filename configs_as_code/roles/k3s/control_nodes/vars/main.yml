@@ -9,9 +9,6 @@ k3s_cn_kube_vip_tag_version: "v0.6.4"
 # will determine the right interface automatically at runtime.
 k3s_cn_kube_vip_iface: null
 
-# apiserver_endpoint is virtual ip-address which will be configured on each master
-k3s_cn_apiserver_endpoint: "192.168.86.20"
-
 # kube-vip ip range for load balancer
 k3s_cn_kube_vip_lb_ip_range: "192.168.86.30-1192.168.86.39"
 

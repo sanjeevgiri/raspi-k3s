@@ -1,0 +1,4 @@
+nfs_sc_state: present
+nfs_sc_server: 192.168.86.10
+nfs_sc_path: /mnt/nfs/pioneer1
+nfs_sc_name: nfs-pioneer1

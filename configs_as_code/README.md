@@ -232,7 +232,7 @@ ansible-playbook site_k3s_data_nodes.yml -i ./inventory/hosts.ini -e "k3s_dn_sta
 - Cleanup temp directory (/tmp/k3s)
 
 # PVC Provisioner
-- We may not need this
+
 
 # Postgres sql database with PVC
 

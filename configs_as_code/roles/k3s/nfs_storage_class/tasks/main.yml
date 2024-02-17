@@ -1,0 +1,7 @@
+- name: Deploy nfs storage class provisioner
+  template:
+    src: "nfs.helmchart.j2"
+    dest: "/var/lib/rancher/k3s/server/manifests/nfs.yml"
+    owner: root
+    group: root
+    mode: 0644

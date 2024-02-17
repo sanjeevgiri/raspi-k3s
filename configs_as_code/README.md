@@ -212,6 +212,19 @@ Metallb
 - Create service for k3s-node
 - Ensure apiserver_endpoint is configured at all level
 
+```shell
+# Checks
+ansible-playbook site_k3s_data_nodes.yml --check -i ./inventory/hosts.ini
+ansible-playbook site_k3s_data_nodes.yml --check -i ./inventory/hosts.ini -e "k3s_dn_state=absent"
+
+# Apply
+ansible-playbook site_k3s_data_nodes.yml -i ./inventory/hosts.ini
+
+# Undo
+ansible-playbook site_k3s_data_nodes.yml -i ./inventory/hosts.ini -e "k3s_dn_state=absent"
+
+```
+
 # Post k3s install actions
 - Deploy metallb
   - metal_lb_ip_range ensure is defined as desired as list at all level within the context of other ips

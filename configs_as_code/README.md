@@ -218,7 +218,7 @@ ansible-playbook site_k3s_data_nodes.yml --check -i ./inventory/hosts.ini
 ansible-playbook site_k3s_data_nodes.yml --check -i ./inventory/hosts.ini -e "k3s_dn_state=absent"
 
 # Apply
-ansible-playbook site_k3s_data_nodes.yml -i ./inventory/hosts.ini
+ansible-playbook site_k3s_data_nodes.yml -i ./inventory/hosts.ini -e "k3s_dn_token=contentsOf(/var/lib/rancher/k3s/server/node-token
 
 # Undo
 ansible-playbook site_k3s_data_nodes.yml -i ./inventory/hosts.ini -e "k3s_dn_state=absent"

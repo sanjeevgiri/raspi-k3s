@@ -5,4 +5,10 @@
     owner: root
     group: root
     mode: 0644
-  when: k3s_first_cn
+  when: k3s_first_cn and nfs_sc_state == "present"
+
+- name: (Cleanup) Undeploy nfs storage class provisioner
+  file:
+    path: "/var/lib/rancher/k3s/server/manifests/nfs.yml"
+    state: absent
+  when: k3s_first_cn and nfs_sc_state == "absent"

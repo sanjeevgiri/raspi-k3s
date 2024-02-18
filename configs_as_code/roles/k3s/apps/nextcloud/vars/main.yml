@@ -1,7 +1,7 @@
 nextcloud_state: present
 nextcloud_name: nextcloud
 # Change these or override these when executing the playbook
-nextcloud_db_user: ncau
+nextcloud_db_user: postgres
 nextcloud_db_password: ncap
 nextcloud_db_sc: nfs-pioneer1
 nextcloud_db_version: 16.2

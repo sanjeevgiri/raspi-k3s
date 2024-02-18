@@ -6,7 +6,7 @@ data:
   POSTGRES_DB: {{nextcloud_name}}
   POSTGRES_USER: {{nextcloud_db_user}}
   POSTGRES_PASSWORD: {{nextcloud_db_password}}
-  PGDATA: /var/lib/postgresql/data/k8s
+  PGDATA: /var/lib/postgresql/nextcloud
 
 ---
 
@@ -51,7 +51,7 @@ spec:
             - configMapRef:
                 name: {{nextcloud_name}}-config
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
+            - mountPath: /var/lib/postgresql/nextcloud
               name: pgdatavol
       volumes:
         - name: pgdatavol

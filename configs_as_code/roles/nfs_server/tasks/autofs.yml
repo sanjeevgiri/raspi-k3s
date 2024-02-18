@@ -9,7 +9,6 @@
     path: '{{nfs_server_ext_drive_mnt_point}}'
     state: "{{ (nfs_server_state == 'present') | ternary('directory', 'absent') }}"
     mode: '0750'
-    owner: '{{ansible_username}}'
     group: '{{ansible_groupname}}'
   when: nfs_server_state == 'present'
 
@@ -26,12 +25,12 @@
   when: nfs_server_state == 'present'
   notify: 'Restart nfs.autofs'
 
-# umask=077 is used to set the permission to 700 ansible user only
+# umask=027 is used to set the permission to 750 ansible group only
 - name: Configure autofs main file
   lineinfile:
     path: /etc/auto.master
     insertafter: 'EOF'
-    line: '{{nfs_server_ext_drive_mnt_point}}   /etc/auto.ext --ghost --timeout=10,defaults,user,exec,uid={{ansible_uid}},umask=077'
+    line: '{{nfs_server_ext_drive_mnt_point}}   /etc/auto.ext --ghost --timeout=10,defaults,user,exec,gid={{ansible_gid}},umask=027'
     state: '{{nfs_server_state}}'
   when: nfs_server_state == 'present'
   notify: 'Restart nfs.autofs'

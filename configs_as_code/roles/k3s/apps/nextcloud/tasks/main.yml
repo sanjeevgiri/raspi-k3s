@@ -10,7 +10,7 @@
 - name: Provision postgresql db server
   kubernetes.core.k8s:
     state: present
-    namespace: "{{ nextcloud_namespace }}"
+    namespace: "{{ nextcloud_name }}"
     template: 'pgsql.server.j2'
     kubeconfig: "{{ k3s_kubeconfig_path }}"
   when: nextcloud_state == "present"
@@ -18,7 +18,7 @@
 - name: (Cleanup) Deprovision postgresql db server
   kubernetes.core.k8s:
     state: absent
-    namespace: "{{ nextcloud_namespace }}"
+    namespace: "{{ nextcloud_name }}"
     template: 'pgsql.server.j2'
     kubeconfig: "{{ k3s_kubeconfig_path }}"
   when: nextcloud_state == "absent"

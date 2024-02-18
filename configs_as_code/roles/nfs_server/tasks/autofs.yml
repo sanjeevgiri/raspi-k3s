@@ -26,12 +26,12 @@
   when: nfs_server_state == 'present'
   notify: 'Restart nfs.autofs'
 
-# umask=027 is used to set the permission to 750
+# umask=077 is used to set the permission to 700 ansible user only
 - name: Configure autofs main file
   lineinfile:
     path: /etc/auto.master
     insertafter: 'EOF'
-    line: '{{nfs_server_ext_drive_mnt_point}}   /etc/auto.ext --ghost --timeout=10,defaults,user,exec,uid={{ansible_uid}},umask=027'
+    line: '{{nfs_server_ext_drive_mnt_point}}   /etc/auto.ext --ghost --timeout=10,defaults,user,exec,uid={{ansible_uid}},umask=077'
     state: '{{nfs_server_state}}'
   when: nfs_server_state == 'present'
   notify: 'Restart nfs.autofs'

@@ -12,6 +12,4 @@ spec:
     nfs.path: {{nfs_export_path}}
     storageClass.reclaimPolicy: Retain
     storageClass.name: {{nfs_sc_name}}
-    podSecurityContext:
-      runAsNonRoot: true
-      runAsUser: {{ansible_uid}}
+    podSecurityContext.runAsUser: {{ansible_uid}}

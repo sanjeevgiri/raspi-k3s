@@ -31,7 +31,7 @@
   lineinfile:
     path: /etc/auto.master
     insertafter: 'EOF'
-    line: '{{nfs_server_ext_drive_mnt_point}}   /etc/auto.ext --ghost --timeout=10,defaults,user,exec,uid={{ansible_uid}},umask=027'
+    line: '{{nfs_server_ext_drive_mnt_point}}   /etc/auto.ext --ghost --timeout=10,defaults,user,exec,uid={{ansible_uid}},gid={{ansible_gid}}umask=027'
     state: '{{nfs_server_state}}'
   when: nfs_server_state == 'present'
   notify: 'Restart nfs.autofs'

@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{nextcloud_nm}}-config
+  name: {{nextcloud_name}}-config
 data:
-  POSTGRES_DB: {{nextcloud_nm}}
+  POSTGRES_DB: {{nextcloud_name}}
   POSTGRES_USER: {{nextcloud_db_user}}
   POSTGRES_PASSWORD: {{nextcloud_db_password}}
   PGDATA: /var/lib/postgresql/data/k8s
@@ -13,7 +13,7 @@ data:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{nextcloud_nm}}-pvc
+  name: {{nextcloud_name}}-pvc
 spec:
   accessModes:
     - ReadWriteMany
@@ -27,48 +27,48 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{nextcloud_nm}}-db
+  name: {{nextcloud_name}}-db
   labels:
-    app: {{nextcloud_nm}}-db
+    app: {{nextcloud_name}}-db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{nextcloud_nm}}-db
-  serviceName: {{nextcloud_nm}}-db
+      app: {{nextcloud_name}}-db
+  serviceName: {{nextcloud_name}}-db
   template: #For the creation of the pod
     metadata:
       labels:
-        app: {{nextcloud_nm}}-db
+        app: {{nextcloud_name}}-db
     spec:
       containers:
-        - name: {{nextcloud_nm}}-db
+        - name: {{nextcloud_name}}-db
           image: postgres:{{nextcloud_db_version}}
           imagePullPolicy: "IfNotPresent"
           ports:
             - containerPort: 5432
           envFrom:
             - configMapRef:
-                name: {{nextcloud_nm}}-config
+                name: {{nextcloud_name}}-config
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: pgdatavol
       volumes:
         - name: pgdatavol
           persistentVolumeClaim:
-            claimName: {{nextcloud_nm}}-pvc
+            claimName: {{nextcloud_name}}-pvc
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{nextcloud_nm}}-lb
+  name: {{nextcloud_name}}-lb
 spec:
   type: LoadBalancer
   loadBalancerIP: {{nextcloud_db_lb_ip}}
   selector:
-    app: {{nextcloud_nm}}-db
+    app: {{nextcloud_name}}-db
   ports:
     - name: psql
       port: 5432

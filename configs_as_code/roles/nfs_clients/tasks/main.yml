@@ -18,14 +18,16 @@
     group: '{{ansible_groupname}}'
   when: nfs_client_state == 'present' and not nfs_mount_point_stat.stat.exists
 
+# There is not need to mount it, since k7s nfs provisioner will be managing the mounts
+# It may be useful to mount it and unmount for testing purposes
 
-- name: Mount NFS volume
-  ansible.posix.mount:
-    src: '{{nfs_server_ip_or_hostname}}:{{nfs_server_share_path}}'
-    path: '{{nfs_client_mount_point}}'
-    opts: rw,sync,hard
-    state: "{{ (nfs_client_state == 'present') | ternary('mounted', 'unmounted') }}"
-    fstype: nfs
+#- name: Mount NFS volume
+#  ansible.posix.mount:
+#    src: '{{nfs_server_ip_or_hostname}}:{{nfs_server_share_path}}'
+#    path: '{{nfs_client_mount_point}}'
+#    opts: rw,sync,hard
+#    state: "{{ (nfs_client_state == 'present') | ternary('mounted', 'unmounted') }}"
+#    fstype: nfs
 
 - name: (Cleanup) Evaluate nfs share client mount path base directory
   shell:

@@ -42,9 +42,8 @@ spec:
         app: {{nextcloud_name}}-db
     spec:
       securityContext:
-        runAsGroup: {{ansible_uid}}
         runAsNonRoot: true
-        runAsUser: {{ansible_gid}}
+        runAsUser: {{ansible_uid}}
       containers:
         - name: {{nextcloud_name}}-db
           image: postgres:{{nextcloud_db_version}}

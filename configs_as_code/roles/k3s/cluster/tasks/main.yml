@@ -43,31 +43,3 @@
     value: "2"
     state: '{{k3s_cluster_state}}'
     reload: yes
-
-#- name: Install python3-pip
-#  apt:
-#    name: python3-pip
-#    state: absent
-#
-#- name: Install pre-requisites for executing k8s and k3s modules
-#  pip:
-#    name:
-#      - openshift
-#      - pyyaml
-#      - kubernetes
-#      - jsonpatch
-#    state: absent
-
-- name: Uninstall pre-requisites for executing k8s and k3s modules
-  pip:
-    name:
-      - openshift
-      - pyyaml
-      - kubernetes
-      - jsonpatch
-    state: absent
-
-- name: Uninstall python3-pip
-  apt:
-    name: python3-pip
-    state: absent

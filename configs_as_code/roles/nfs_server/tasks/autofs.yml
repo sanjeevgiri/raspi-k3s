@@ -8,7 +8,7 @@
   file:
     path: '{{nfs_server_ext_drive_mnt_point}}'
     state: "{{ (nfs_server_state == 'present') | ternary('directory', 'absent') }}"
-    mode: '0755'
+    mode: '0750'
     owner: '{{ansible_username}}'
     group: '{{ansible_groupname}}'
   when: nfs_server_state == 'present'

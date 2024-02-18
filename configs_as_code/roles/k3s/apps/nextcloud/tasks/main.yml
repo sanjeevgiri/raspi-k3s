@@ -4,6 +4,7 @@
     api_version: v1
     kind: Namespace
     state: present
+    kubeconfig: "{{ k3s_kubeconfig_path }}"
   when: k3s_first_cn and nextcloud_state == "present"
 
 - name: Provision postgresql db server
@@ -11,6 +12,7 @@
     state: present
     namespace: "{{ nextcloud_namespace }}"
     template: 'pgsql.server.j2'
+    kubeconfig: "{{ k3s_kubeconfig_path }}"
   when: k3s_first_cn and nextcloud_state == "present"
 
 - name: (Cleanup) Deprovision postgresql db server
@@ -18,5 +20,6 @@
     state: absent
     namespace: "{{ nextcloud_namespace }}"
     template: 'pgsql.server.j2'
+    kubeconfig: "{{ k3s_kubeconfig_path }}"
   when: k3s_first_cn and nextcloud_state == "absent"
 

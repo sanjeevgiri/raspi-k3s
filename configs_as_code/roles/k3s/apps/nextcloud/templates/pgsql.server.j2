@@ -42,8 +42,6 @@ spec:
         app: {{nextcloud_name}}-db
     spec:
       securityContext:
-        fsGroup: {{ansible_gid}}
-        fsGroupChangePolicy: Always
         runAsGroup: {{ansible_uid}}
         runAsNonRoot: true
         runAsUser: {{ansible_gid}}

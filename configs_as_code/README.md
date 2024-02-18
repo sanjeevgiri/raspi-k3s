@@ -271,11 +271,60 @@ ansible-playbook site_k3s_nextcloud.yml -i ./inventory/hosts.ini
 # Undo
 ansible-playbook site_k3s_nextcloud.yml -i ./inventory/hosts.ini -e "nfs_sc_state=absent"
 
+
+
+# Helm install
+helm repo add nextcloud https://nextcloud.github.io/helm/
+helm repo update
+
+helm install nextcloud nextcloud/nextcloud \
+  --set image.tag=26.0.11 \
+  --set replicaCount=2 \
+  --set nextcloud.username=sanjeev \
+  --set nextcloud.password=strongpw \
+  --set service.type=LoadBalancer \
+  --set service.loadBalancerIP=192.168.86.31 \
+  --set internalDatabase.enabled=false \
+  --set externalDatabase.enabled=true \
+  --set externalDatabase.type=postgresql \
+  --set externalDatabase.host=192.168.86.30 \
+  --set externalDatabase.database=nextcloud \
+  --set externalDatabase.user=postgres \
+  --set externalDatabase.password=ncap \
+  --set persistence.enabled=true \
+  --set persistence.storageClass=nfs-pioneer1 \
+  --set persistence.existingClaim=nextcloud-app \
+  --set persistence.accessMode=ReadWriteMany \
+  --set persistence.size=10Gi
 ```
 
 # Empty image backup
 
 # Post script image backups
 
+# Todos 
+- [] Review issues
+- [] Storage class helm
+- [] Next cloud helm and namespace
+
+
+helm install nextcloud nextcloud/nextcloud \
+--set image.tag=26.0.11 \
+--set replicaCount=2 \
+--set nextcloud.username=sanjeev \
+--set nextcloud.password=strongpw \
+--set service.type=LoadBalancer \
+--set service.loadBalancerIP=192.168.86.31 \
+--set internalDatabase.enabled=false \
+--set externalDatabase.enabled=true \
+--set externalDatabase.type=postgresql \
+--set externalDatabase.host=192.168.86.30 \
+--set externalDatabase.database=nextcloud \
+--set externalDatabase.user=postgres \
+--set externalDatabase.password=ncap \
+--set persistence.enabled=true \
+--set persistence.storageClass=nfs-pioneer1 \
+--set persistence.accessMode=ReadWriteMany \
+--set persistence.size=10Gi
 
 

@@ -18,7 +18,7 @@
 # This is used for mounting in our case as a root user from k3s cluster nodes
 - name: Configure NFS server
   copy:
-    content: '{{nfs_server_ext_drive_mnt_point}}/{{nfs_server_ext_drive_name}} {{nfs_server_subnet}}/{{nfs_server_subnet_mask}}(rw,no_subtree_check,no_root_squash)'
+    content: '{{nfs_server_ext_drive_mnt_point}}/{{nfs_server_ext_drive_name}} {{nfs_server_subnet}}/{{nfs_server_subnet_mask}}(rw,no_subtree_check,no_root_squash,anonuid={{ansible_uid}},anongid={{ansible_gid}})'
     dest: /etc/exports
   when: nfs_server_state == 'present'
   notify: Restart nfs.server

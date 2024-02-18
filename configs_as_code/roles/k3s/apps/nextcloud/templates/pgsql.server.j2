@@ -41,6 +41,12 @@ spec:
       labels:
         app: {{nextcloud_name}}-db
     spec:
+      securityContext:
+        fsGroup: {{ansible_gid}}
+        fsGroupChangePolicy: Always
+        runAsGroup: {{ansible_uid}}
+        runAsNonRoot: true
+        runAsUser: {{ansible_gid}}
       containers:
         - name: {{nextcloud_name}}-db
           image: postgres:{{nextcloud_db_version}}

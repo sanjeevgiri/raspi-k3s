@@ -14,9 +14,11 @@
     removes: /etc/exports
   when: nfs_server_state == 'present'
 
+# no root squash options allows root from client systems to write to NFS share as root
+# This is used for mounting in our case as a root user from k3s cluster nodes
 - name: Configure NFS server
   copy:
-    content: '{{nfs_server_ext_drive_mnt_point}}/{{nfs_server_ext_drive_name}} {{nfs_server_subnet}}/{{nfs_server_subnet_mask}}(rw,no_subtree_check)'
+    content: '{{nfs_server_ext_drive_mnt_point}}/{{nfs_server_ext_drive_name}} {{nfs_server_subnet}}/{{nfs_server_subnet_mask}}(rw,no_subtree_check,no_root_squash)'
     dest: /etc/exports
   when: nfs_server_state == 'present'
   notify: Restart nfs.server

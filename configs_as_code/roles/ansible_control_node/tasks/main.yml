@@ -38,7 +38,7 @@
       - kubernetes
       - jsonpatch
     state: present
-    when: acn_state == 'present'
+  when: acn_state == 'present'
 
 - name: (Cleanup) Uninstall pre-requisites for executing k8s and k3s modules
   pip:
@@ -48,7 +48,7 @@
       - kubernetes
       - jsonpatch
     state: absent
-    when: acn_state == 'absent'
+  when: acn_state == 'absent'
 
 - name: (Cleanup) Uninstall python3-pip
   apt:

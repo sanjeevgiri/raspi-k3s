@@ -23,3 +23,12 @@
 - name: Set timezone to UTC
   community.general.timezone:
     name: '{{system_timezone}}'
+
+- name: Install pre-requisites for executing k8s and k3s modules
+  pip:
+    name:
+      - openshift
+      - pyyaml
+      - kubernetes
+      - jsonpatch
+    state: '{{acn_state}}'

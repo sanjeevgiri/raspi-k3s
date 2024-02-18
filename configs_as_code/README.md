@@ -107,6 +107,13 @@ ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini
 
 # NFS Undo
 ansible-playbook site_nfs_clients.yml -i ./inventory/hosts.ini -e "nfs_client_state=absent"
+
+# Manually mount and unmount for testing at this point
+# At later stages, we will use NFS provisioner for creating k3s storage class and managing mounts
+sudo mount -t nfs 192.168.86.10:/mnt/usbs/pioneer1 /mnt/nfs/pioneer1
+df -h
+
+umount /mnt/nfs/pioneer1
 ```
 
 # Configure K3s Cluster Nodes (Control and Data)

@@ -9,6 +9,6 @@ spec:
   targetNamespace: default
   set:
     nfs.server: {{nfs_server_ip}}
-    nfs.path: {{nfs_server_mount}}
+    nfs.path: {{nfs_export_path}}
     storageClass.reclaimPolicy: Retain
     storageClass.name: {{nfs_sc_name}}

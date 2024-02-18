@@ -23,3 +23,12 @@
     kubeconfig: "{{ k3s_kubeconfig_path }}"
   when: nextcloud_state == "absent"
 
+- name: (Cleanup) Delete a k8s namespace
+  kubernetes.core.k8s:
+    name: "{{ nextcloud_name }}"
+    api_version: v1
+    kind: Namespace
+    state: absent
+    kubeconfig: "{{ k3s_kubeconfig_path }}"
+  when: nextcloud_state == "absent"
+

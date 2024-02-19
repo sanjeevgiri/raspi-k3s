@@ -233,26 +233,7 @@ ansible-playbook site_k3s_nfs_storage_class.yml -i ./inventory/hosts.ini
 # Undo
 ansible-playbook site_k3s_nfs_storage_class.yml -i ./inventory/hosts.ini -e "nfs_sc_state=absent"
 ```
-Currently this module is not working as expected. I manually installed nfs provisioner 
-by installing helm and using helm commands.
-https://github.com/sanjeevgiri/raspi-k3s/issues/8
-```shell
-curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
-sudo apt-get install apt-transport-https --yes
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
-sudo apt-get update
-sudo apt-get install helm
 
-helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=192.168.86.10 --set nfs.path=/exported/path --set nfs.path=/mnt/usbs/pioneer1 --set storageClass.reclaimPolicy=Retain --set storageClass.name=nfs-pioneer1
-
-
-export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-
-export KUBECONFIG=./kubeconfig
-
-
-```
-https://docs.ansible.com/ansible/latest/collections/kubernetes/core/helm_module.html
 
 # Nextcloud
 ```shell

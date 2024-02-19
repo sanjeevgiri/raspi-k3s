@@ -1,10 +1,21 @@
 nextcloud_state: present
 nextcloud_name: nextcloud
-# Change these or override these when executing the playbook
+nextcloud_sc: nfs-pioneer1
+# Change or override these when executing the playbook
 nextcloud_db_user: postgres
-nextcloud_db_password: ncap
-nextcloud_db_sc: nfs-pioneer1
+nextcloud_db_password: superstrongpwd
+
 nextcloud_db_version: 16.2
 
 # This IP must be wihin the range specified in the k3s_cn_kube_vip_lb_ip_range variable
 nextcloud_db_lb_ip: 192.168.86.30
+
+# Next cloud properties
+nextcloud_image_tag: 26.0.11
+nextcloud_replica_count: 1
+nextcloud_host: {{ nextcloud_load_balancer_ip }}
+# Change or override these when executing the playbook
+nextcloud_username: sanjeev
+nextcloud_password: superstrongpwd
+# This IP must be wihin the range specified in the k3s_cn_kube_vip_lb_ip_range variable
+nextcloud_load_balancer_ip: 192.168.86.31

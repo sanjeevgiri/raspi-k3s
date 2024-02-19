@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{nextcloud_name}}-config
+  name: {{nextcloud_name}}-db
 data:
   POSTGRES_DB: {{nextcloud_name}}
   POSTGRES_USER: {{nextcloud_db_user}}
@@ -13,11 +13,11 @@ data:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{nextcloud_name}}-pvc
+  name: {{nextcloud_name}}-db
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: {{nextcloud_db_sc}}
+  storageClassName: {{nextcloud_sc}}
   resources:
     requests:
       storage: 10Gi
@@ -52,21 +52,21 @@ spec:
             - containerPort: 5432
           envFrom:
             - configMapRef:
-                name: {{nextcloud_name}}-config
+                name: {{nextcloud_name}}-db
           volumeMounts:
             - mountPath: /var/lib/postgresql/data/nextcloud
               name: pgdatavol
       volumes:
         - name: pgdatavol
           persistentVolumeClaim:
-            claimName: {{nextcloud_name}}-pvc
+            claimName: {{nextcloud_name}}-db
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{nextcloud_name}}-lb
+  name: {{nextcloud_name}}-db
 spec:
   type: LoadBalancer
   loadBalancerIP: {{nextcloud_db_lb_ip}}

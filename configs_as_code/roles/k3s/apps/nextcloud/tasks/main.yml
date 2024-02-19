@@ -4,7 +4,6 @@
     api_version: v1
     kind: Namespace
     state: present
-    kubeconfig: "{{ k3s_kubeconfig_path }}"
   when: nextcloud_state == "present"
 
 - name: Provision postgresql db server
@@ -12,23 +11,68 @@
     state: present
     namespace: "{{ nextcloud_name }}"
     template: 'pgsql.server.j2'
-    kubeconfig: "{{ k3s_kubeconfig_path }}"
   when: nextcloud_state == "present"
+
+# Prefer not to automate deletion of app PVC
+- name: Provision pvc for nextcloud
+  kubernetes.core.k8s:
+    state: present
+    namespace: "{{ nextcloud_name }}"
+    template: 'nextcloud.pvc.j2'
+  when: nextcloud_state == "present"
+
+- name: Add helm repository
+  kubernetes.core.helm_repository:
+    name: stable
+    url: https://nextcloud.github.io/helm/
+    repo_state: {{ nextcloud_state }}
+
+- name: Install nextcloud
+  kubernetes.core.helm:
+    name: "{{ nextcloud_name }}"
+    chart_ref: stable/nextcloud
+    release_namespace: "{{ nextcloud_name }}"
+    values:
+      image:
+        tag: {{ nextcloud_image_tag }}
+      replicaCount: {{ nextcloud_replica_count }}
+      nextcloud:
+        host: {{ nextcloud_host }}
+        username: changeme
+        password: changeme
+        securityContext:
+          runAsUser: {{ ansible_uid }}
+          runAsGroup: {{ ansible_gid }}
+          fsGroup: {{ ansible_gid}}
+          runAsNonRoot: true
+      service:
+        type: LoadBalancer
+        loadBalancerIP: {{ nextcloud_host }}
+      internalDatabase:
+        enabled: false
+      externalDatabase:
+        enabled: true
+        type: postgresql
+        host: {{ nextcloud_db_lb_ip }}
+        database: {{ nextcloud_name }}
+        user: {{ nextcloud_db_user }}
+        password: {{ nextcloud_db_password }}
+      persistence:
+        enabled: true
+        existingClaim: {{ nextcloud_name }}-app
+      livenessProbe:
+        enabled: false
+      readinessProbe:
+        enabled: false
+    state: {{ nextcloud_state }}    
 
 - name: (Cleanup) Deprovision postgresql db server
   kubernetes.core.k8s:
     state: absent
     namespace: "{{ nextcloud_name }}"
     template: 'pgsql.server.j2'
-    kubeconfig: "{{ k3s_kubeconfig_path }}"
   when: nextcloud_state == "absent"
 
-- name: (Cleanup) Delete a k8s namespace
-  kubernetes.core.k8s:
-    name: "{{ nextcloud_name }}"
-    api_version: v1
-    kind: Namespace
-    state: absent
-    kubeconfig: "{{ k3s_kubeconfig_path }}"
-  when: nextcloud_state == "absent"
+# For full cleanup, delete PVs in k8s and NFS
+# This module does not delete the namespace and the app PVs  
 

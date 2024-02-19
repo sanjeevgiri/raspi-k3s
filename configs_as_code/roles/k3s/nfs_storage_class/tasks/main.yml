@@ -21,7 +21,7 @@
 
 - name: Install nfs storage class provisioner
   kubernetes.core.helm:
-    name: nfs
+    name: nfs-subdir-external-provisioner
     chart_ref: stable/nfs-subdir-external-provisioner
     namespace: default
     state: "{{ nfs_sc_state }}"
@@ -32,12 +32,4 @@
       storageClass:
         reclaimPolicy: Retain
         name: "{{ nfs_sc_name }}"
-      podSecurityContext:
-        fsGroup: "{{ ansible_gid }}"
-        runAsUser: "{{ ansible_uid }}"
-        runAsGroup: "{{ ansible_gid }}"
-      securityContext:
-        fsGroup: "{{ ansible_gid }}"
-        runAsUser: "{{ ansible_uid }}"
-        runAsGroup: "{{ ansible_gid }}"
 

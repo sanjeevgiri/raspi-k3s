@@ -56,6 +56,7 @@
       apt-get remove helm --yes
       rm /etc/apt/sources.list.d/helm-stable-debian.list
       rm /usr/share/keyrings/helm.gpg
+  when: acn_state == 'absent'    
 
 - name: (Cleanup) Uninstall pre-requisites for executing k8s and k3s modules
   pip:

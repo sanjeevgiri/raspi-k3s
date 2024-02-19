@@ -12,7 +12,7 @@ nextcloud:
     runAsNonRoot: true
 service:
   type: LoadBalancer
-  loadBalancerIP: {{ nextcloud_host }
+  loadBalancerIP: {{ nextcloud_host }}
 internalDatabase:
   enabled: false
 externalDatabase:

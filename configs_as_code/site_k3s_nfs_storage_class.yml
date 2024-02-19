@@ -1,5 +1,7 @@
 - hosts: ansible_control_node
   gather_facts: true
   become: yes
+  environment:
+    KUBECONFIG: ./kubeconfig
   roles:
     - role: roles/k3s/nfs_storage_class

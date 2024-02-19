@@ -41,7 +41,7 @@
   when: acn_state == 'present'
 
 - name: Install helm
-  shell:
+  command:
     cmd: |
       curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
       apt-get install apt-transport-https --yes
@@ -51,7 +51,7 @@
   when: acn_state == 'present' 
 
 - name: (Cleanup) Uninstall helm
-  shell:
+  command:
     cmd: |
       apt-get remove helm --yes
       rm /etc/apt/sources.list.d/helm-stable-debian.list

@@ -25,7 +25,7 @@
   kubernetes.core.helm_repository:
     name: stable
     url: https://nextcloud.github.io/helm/
-    repo_state: {{ nextcloud_state }}
+    repo_state: "{{ nextcloud_state }}"
 
 - name: Install nextcloud
   kubernetes.core.helm:

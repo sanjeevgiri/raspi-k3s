@@ -7,7 +7,7 @@
 - name: Install nfs storage class provisioner
   kubernetes.core.helm:
     name: nfs-subdir-external-provisioner
-    chart_ref: stable/nfs-subdir-external-provisioner
+    chart_ref: nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
     namespace: default
     state: "{{ nfs_sc_state }}"
     values: 

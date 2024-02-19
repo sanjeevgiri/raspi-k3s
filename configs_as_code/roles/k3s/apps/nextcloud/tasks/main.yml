@@ -38,8 +38,8 @@
   kubernetes.core.helm:
     name: "{{ nextcloud_name }}"
     chart_ref: nextcloud/nextcloud
-    release_namespace: "{{ nextcloud_name }}"
-    values-files:
+    namespace: "{{ nextcloud_name }}"
+    values_files:
       - /tmp/nextcloud.values.yml
     state: "{{ nextcloud_state }}"  
 

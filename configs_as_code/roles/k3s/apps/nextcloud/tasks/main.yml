@@ -35,7 +35,7 @@
     values:
       image:
         tag: {{ nextcloud_image_tag }}
-      replicaCount: {{ nextcloud_replica_count }}
+      replicaCount: "{{ nextcloud_replica_count }}"
       nextcloud:
         host: {{ nextcloud_host }}
         username: {{ nextcloud_username }}

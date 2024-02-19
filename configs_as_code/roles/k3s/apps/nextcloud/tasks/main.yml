@@ -64,7 +64,7 @@
         enabled: false
       readinessProbe:
         enabled: false
-    state: {{ nextcloud_state }}    
+    state: "{{ nextcloud_state }}"  
 
 - name: (Cleanup) Deprovision postgresql db server
   kubernetes.core.k8s:

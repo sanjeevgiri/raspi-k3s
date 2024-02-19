@@ -70,7 +70,7 @@
   kubernetes.core.k8s:
     state: absent
     namespace: "{{ nextcloud_name }}"
-    template: 'pgsql.server.j2'
+    template: 'nextcloud.dbserver.j2'
   when: nextcloud_state == "absent"
 
 # For full cleanup, delete PVs in k8s and NFS

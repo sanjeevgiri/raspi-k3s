@@ -37,9 +37,9 @@
         tag: {{ nextcloud_image_tag }}
       replicaCount: {{ nextcloud_replica_count }}
       nextcloud:
-        host: "{{ nextcloud_host }}"
-        username: changeme
-        password: changeme
+        host: 'abc.com'
+        username: {{ nextcloud_username }}
+        password: {{ nextcloud_password }}
         securityContext:
           runAsUser: {{ ansible_uid }}
           runAsGroup: {{ ansible_gid }}

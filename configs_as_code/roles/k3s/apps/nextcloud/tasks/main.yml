@@ -13,7 +13,6 @@
     template: 'nextcloud.dbserver.j2'
   when: nextcloud_state == "present"
 
-# Prefer not to automate deletion of app PVC
 - name: Provision pvc for nextcloud
   kubernetes.core.k8s:
     state: present
@@ -27,43 +26,21 @@
     url: https://nextcloud.github.io/helm/
     repo_state: "{{ nextcloud_state }}"
 
+- name: Create values file for nextcloud
+  template:
+    src: "nextcloud.values.j2"
+    dest: "/tmp/nextcloud.values.yml"
+    owner: root
+    group: root
+    mode: 0644
+
 - name: Install nextcloud
   kubernetes.core.helm:
     name: "{{ nextcloud_name }}"
     chart_ref: nextcloud/nextcloud
     release_namespace: "{{ nextcloud_name }}"
-    values:
-      image:
-        tag: "{{ nextcloud_image_tag }}"
-      replicaCount: "{{ nextcloud_replica_count }}"
-      nextcloud:
-        host: "{{ nextcloud_host }}"
-        username: "{{ nextcloud_username }}"
-        password: "{{ nextcloud_password }}"
-        securityContext:
-          runAsUser: "{{ ansible_uid }}"
-          runAsGroup: "{{ ansible_gid }}"
-          fsGroup: "{{ ansible_gid}}"
-          runAsNonRoot: true
-      service:
-        type: LoadBalancer
-        loadBalancerIP: "{{ nextcloud_host }}"
-      internalDatabase:
-        enabled: false
-      externalDatabase:
-        enabled: true
-        type: postgresql
-        host: "{{ nextcloud_db_lb_ip }}"
-        database: "{{ nextcloud_name }}"
-        user: "{{ nextcloud_db_user }}"
-        password: "{{ nextcloud_db_password }}"
-      persistence:
-        enabled: true
-        existingClaim: "{{ nextcloud_name }}-app"
-      livenessProbe:
-        enabled: false
-      readinessProbe:
-        enabled: false
+    values-files:
+      - /tmp/nextcloud.values.yml
     state: "{{ nextcloud_state }}"  
 
 - name: (Cleanup) Deprovision postgresql db server
@@ -73,6 +50,21 @@
     template: 'nextcloud.dbserver.j2'
   when: nextcloud_state == "absent"
 
-# For full cleanup, delete PVs in k8s and NFS
-# This module does not delete the namespace and the app PVs  
+- name: (Cleanup) Remove pvc for nextcloud
+  kubernetes.core.k8s:
+    state: absent
+    namespace: "{{ nextcloud_name }}"
+    template: 'nextcloud.pvc.j2'
+  when: nextcloud_state == "absent"
+
+- name: Create a k8s namespace
+  kubernetes.core.k8s:
+    name: "{{ nextcloud_name }}"
+    api_version: v1
+    kind: Namespace
+    state: absent
+  when: nextcloud_state == "absent"  
+
+# With reclaim policy Retain, all data is retained in the NFS server
+# for database and the app
 

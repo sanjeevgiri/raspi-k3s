@@ -1,18 +1,3 @@
-# - name: Deploy nfs storage class provisioner
-#   template:
-#     src: "nfs.helmchart.j2"
-#     dest: "/var/lib/rancher/k3s/server/manifests/nfs.yml"
-#     owner: root
-#     group: root
-#     mode: 0644
-#   when: k3s_first_cn and nfs_sc_state == "present"
-
-# - name: (Cleanup) Undeploy nfs storage class provisioner
-#   file:
-#     path: "/var/lib/rancher/k3s/server/manifests/nfs.yml"
-#     state: absent
-#   when: k3s_first_cn and nfs_sc_state == "absent"
-
 - name: Add stable chart repo
   kubernetes.core.helm_repository:
     name: nfs-subdir-external-provisioner

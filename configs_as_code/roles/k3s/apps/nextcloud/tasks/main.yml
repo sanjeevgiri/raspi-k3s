@@ -10,7 +10,7 @@
   kubernetes.core.k8s:
     state: present
     namespace: "{{ nextcloud_name }}"
-    template: 'pgsql.server.j2'
+    template: 'nextcloud.dbserver.j2'
   when: nextcloud_state == "present"
 
 # Prefer not to automate deletion of app PVC

@@ -152,23 +152,12 @@ ansible-playbook site_k3s_cluster.yml -i ./inventory/hosts.ini -e "k3s_cluster_s
 - Create kubectl and crictl symlinks
 - Remove manifests and folders that are only needed for bootstrapping cluster so k3s does not auto apply on start
 
-## Vip deployment (LB for control plane)
+## Vip deployment (LB for control plane and services)
 - Create a manifest directory in the first control node (ensure naming consistency here)
 - Download vip rback 
   - kube_vip_tag_version used 0.5.7, current 0.6.0
   - https://github.com/kube-vip/kube-vip/blob/v0.6.0/docs/manifests/rbac.yaml
 - Copy vip rback to first control node
-
-## Metallb (LB for data plane - may need to experiment using VIP for data plane as well)
-- Create a manifest directory in the first control node
-- Download manifest for metallb by type
-  - metal_lb_type - native
-  - metal_lb_mode - layer2
-  - metal_lb_frr_tag_version is not used
-  - metal_lb_speaker_tag_version (may not be needed if we want to keep consistent version between controller and speaker)
-  - metal_lb_controller_tag_version current 0.13.10 used 0.13.9
-  - https://github.com/metallb/metallb/tree/main/config/manifests
-- Update metallb manifest speaker docker image to specific version if needed (may skip this and start out with same)
 
 ```shell
 # Checks
@@ -232,13 +221,12 @@ ansible-playbook site_k3s_data_nodes.yml -i ./inventory/hosts.ini -e "k3s_dn_sta
 
 ```
 
-# Post k3s install actions
-- Deploy metallb
-  - metal_lb_ip_range ensure is defined as desired as list at all level within the context of other ips
-  - metal_lb_mode - layer2 for ip address based routing, bgp can be used as well for internetwork comms (out of scope)
-- Cleanup temp directory (/tmp/k3s)
-
 # Storage class / Dynamic PV Provisioner
+Prequisite: Setup KUBECONFIG environment variable
+- Executing the k3s control nodes module will fetch the k3s token file on the ansible control node
+- Change the permission to 700 on the ./kubeconfig file
+- Include `export KUBECONFIG=path/to/the/repo/raspi-k3s/config_as_code/kubeconfig` in control node default and root user's ~/.bashrc file
+
 ```shell
 # Apply
 ansible-playbook site_k3s_nfs_storage_class.yml -i ./inventory/hosts.ini
@@ -259,6 +247,8 @@ helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs
 
 
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+export KUBECONFIG=./kubeconfig
 
 
 ```

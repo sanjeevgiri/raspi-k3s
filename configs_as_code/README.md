@@ -269,7 +269,7 @@ https://docs.ansible.com/ansible/latest/collections/kubernetes/core/helm_module.
 # Apply
 ansible-playbook site_k3s_nextcloud.yml -i ./inventory/hosts.ini
 # Undo
-ansible-playbook site_k3s_nextcloud.yml -i ./inventory/hosts.ini -e "nfs_sc_state=absent"
+ansible-playbook site_k3s_nextcloud.yml -i ./inventory/hosts.ini -e "nfs_nextclou_state=absent"
 
 
 

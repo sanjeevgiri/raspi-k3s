@@ -15,6 +15,28 @@
 
 - name: Add stable chart repo
   kubernetes.core.helm_repository:
-    name: nfs-subdir-external-provisioner
+    name: stable
     repo_url: "https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner"
+
+- name: Install nfs storage class provisioner
+  kubernetes.core.helm:
+    name: nfs
+    chart_ref: stable/nfs-subdir-external-provisioner
+    namespace: default
+    state: "{{ nfs_sc_state }}"
+    values: 
+      nfs:
+        server: "{{ nfs_server_ip }}"
+        path: "{{ nfs_export_path }}"
+      storageClass:
+        reclaimPolicy: Retain
+        name: "{{ nfs_sc_name }}"
+      podSecurityContext:
+        fsGroup: "{{ ansible_gid }}"
+        runAsUser: "{{ ansible_uid }}"
+        runAsGroup: "{{ ansible_gid }}"
+      securityContext:
+        fsGroup: "{{ ansible_gid }}"
+        runAsUser: "{{ ansible_uid }}"
+        runAsGroup: "{{ ansible_gid }}"
 

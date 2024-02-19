@@ -37,7 +37,7 @@
         tag: {{ nextcloud_image_tag }}
       replicaCount: {{ nextcloud_replica_count }}
       nextcloud:
-        host: {{ nextcloud_host }}
+        host: "{{ nextcloud_host }}"
         username: changeme
         password: changeme
         securityContext:

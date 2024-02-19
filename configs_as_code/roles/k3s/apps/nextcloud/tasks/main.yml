@@ -59,7 +59,7 @@
         password: {{ nextcloud_db_password }}
       persistence:
         enabled: true
-        existingClaim: {{ nextcloud_name }}-app
+        existingClaim: "{{ nextcloud_name }}-app"
       livenessProbe:
         enabled: false
       readinessProbe:

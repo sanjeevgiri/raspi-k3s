@@ -23,14 +23,14 @@
 
 - name: Add helm repository
   kubernetes.core.helm_repository:
-    name: stable
+    name: nextcloud
     url: https://nextcloud.github.io/helm/
     repo_state: "{{ nextcloud_state }}"
 
 - name: Install nextcloud
   kubernetes.core.helm:
     name: "{{ nextcloud_name }}"
-    chart_ref: stable/nextcloud
+    chart_ref: nextcloud/nextcloud
     release_namespace: "{{ nextcloud_name }}"
     values:
       image:

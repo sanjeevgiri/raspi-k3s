@@ -17,6 +17,7 @@
   kubernetes.core.helm_repository:
     name: stable
     repo_url: "https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner"
+    repo_state: "{{ nfs_sc_state }}"
 
 - name: Install nfs storage class provisioner
   kubernetes.core.helm:

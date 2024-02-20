@@ -5,11 +5,11 @@ nextcloud:
   host: {{ nextcloud_host }}
   username: {{ nextcloud_username }}
   password: {{ nextcloud_password }}
-  securityContext:
-    runAsUser: {{ ansible_uid }}
-    runAsGroup: {{ ansible_gid }}
-    fsGroup: {{ ansible_gid }}
-    runAsNonRoot: true
+#  securityContext:
+#    runAsUser: {{ ansible_uid }}
+#    runAsGroup: {{ ansible_gid }}
+#    fsGroup: {{ ansible_gid }}
+#    runAsNonRoot: true
 service:
   type: LoadBalancer
   loadBalancerIP: {{ nextcloud_host }}

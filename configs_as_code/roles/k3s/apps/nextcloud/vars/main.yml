@@ -11,6 +11,7 @@ nextcloud_db_version: 16.2
 nextcloud_db_lb_ip: 192.168.86.30
 
 # Next cloud properties
+nextcloud_image_repository: sanjeevgiri/nextcloud
 nextcloud_image_tag: 28.0.2
 nextcloud_replica_count: 1
 # Change or override these when executing the playbook

@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{nextcloud_name}}-db
+data:
+  POSTGRES_DB: {{nextcloud_name}}
+  POSTGRES_USER: {{nextcloud_db_user}}
+  POSTGRES_PASSWORD: {{nextcloud_db_password}}
+  PGDATA: /var/lib/postgresql/data/nextcloud
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{nextcloud_name}}-db
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: {{nextcloud_sc}}
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{nextcloud_name}}-db
+  labels:
+    app: {{nextcloud_name}}-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{nextcloud_name}}-db
+  serviceName: {{nextcloud_name}}-db
+  template: #For the creation of the pod
+    metadata:
+      labels:
+        app: {{nextcloud_name}}-db
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: {{ansible_uid}}
+      containers:
+        - name: {{nextcloud_name}}-db
+          image: postgres:{{nextcloud_db_version}}
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: {{nextcloud_name}}-db
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data/nextcloud
+              name: pgdatavol
+      volumes:
+        - name: pgdatavol
+          persistentVolumeClaim:
+            claimName: {{nextcloud_name}}-db
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{nextcloud_name}}-db
+spec:
+  type: LoadBalancer
+  loadBalancerIP: {{nextcloud_db_lb_ip}}
+  selector:
+    app: {{nextcloud_name}}-db
+  ports:
+    - name: psql
+      port: 5432
+      targetPort: 5432
+      nodePort: 30101
+      protocol: TCP

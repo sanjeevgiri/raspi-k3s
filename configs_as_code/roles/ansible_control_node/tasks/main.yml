@@ -23,3 +23,53 @@
 - name: Set timezone to UTC
   community.general.timezone:
     name: '{{system_timezone}}'
+
+- name: Install python3-pip
+  apt:
+    name: python3-pip
+    state: present
+  when: acn_state == 'present'
+
+- name: Install pre-requisites for executing k8s and k3s modules
+  pip:
+    name:
+      - openshift
+      - pyyaml
+      - kubernetes
+      - jsonpatch
+    state: present
+  when: acn_state == 'present'
+
+- name: Install helm
+  shell:
+    cmd: |
+      curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
+      apt-get install apt-transport-https --yes
+      echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
+      apt-get update
+      apt-get install helm
+  when: acn_state == 'present' 
+
+- name: (Cleanup) Uninstall helm
+  shell:
+    cmd: |
+      apt-get remove helm --yes
+      rm /etc/apt/sources.list.d/helm-stable-debian.list
+      rm /usr/share/keyrings/helm.gpg
+  when: acn_state == 'absent'    
+
+- name: (Cleanup) Uninstall pre-requisites for executing k8s and k3s modules
+  pip:
+    name:
+      - openshift
+      - pyyaml
+      - kubernetes
+      - jsonpatch
+    state: absent
+  when: acn_state == 'absent'
+
+- name: (Cleanup) Uninstall python3-pip
+  apt:
+    name: python3-pip
+    state: absent
+  when: acn_state == 'absent'

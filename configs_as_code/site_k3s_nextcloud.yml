@@ -4,4 +4,4 @@
   environment:
     KUBECONFIG: ./kubeconfig
   roles:
-    - role: roles/k3s/nfs_storage_class
+    - role: roles/k3s/apps/nextcloud

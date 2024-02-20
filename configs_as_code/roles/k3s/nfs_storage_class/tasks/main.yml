@@ -1,8 +1,20 @@
-- name: Deploy nfs storage class provisioner
-  template:
-    src: "nfs.helmchart.j2"
-    dest: "/var/lib/rancher/k3s/server/manifests/nfs.yml"
-    owner: root
-    group: root
-    mode: 0644
-  when: nfs_sc_first_control_node
+- name: Add stable chart repo
+  kubernetes.core.helm_repository:
+    name: nfs-subdir-external-provisioner
+    repo_url: "https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner"
+    repo_state: "{{ nfs_sc_state }}"
+
+- name: Install nfs storage class provisioner
+  kubernetes.core.helm:
+    name: nfs-subdir-external-provisioner
+    chart_ref: nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
+    namespace: default
+    state: "{{ nfs_sc_state }}"
+    values: 
+      nfs:
+        server: "{{ nfs_server_ip }}"
+        path: "{{ nfs_export_path }}"
+      storageClass:
+        reclaimPolicy: Retain
+        name: "{{ nfs_sc_name }}"
+

@@ -1,0 +1,34 @@
+image:
+  tag: {{ nextcloud_image_tag }}
+replicaCount: {{ nextcloud_replica_count }}
+nextcloud:
+  host: {{ nextcloud_host }}
+  username: {{ nextcloud_username }}
+  password: {{ nextcloud_password }}
+  securityContext:
+    runAsUser: {{ ansible_uid }}
+    runAsGroup: {{ ansible_gid }}
+    fsGroup: {{ ansible_gid }}
+    runAsNonRoot: true
+service:
+  type: LoadBalancer
+  loadBalancerIP: {{ nextcloud_host }}
+internalDatabase:
+  enabled: false
+externalDatabase:
+  enabled: true
+  type: postgresql
+  host: {{ nextcloud_db_lb_ip }}
+  database: {{ nextcloud_name }}
+  user: {{ nextcloud_db_user }}
+  password: {{ nextcloud_db_password }}
+persistence:
+  enabled: true
+  existingClaim: {{ nextcloud_name }}-app
+  size: 10Gi
+livenessProbe:
+  enabled: false
+readinessProbe:
+  enabled: false
+
+

@@ -1,0 +1,70 @@
+- name: Create a k8s namespace
+  kubernetes.core.k8s:
+    name: "{{ nextcloud_name }}"
+    api_version: v1
+    kind: Namespace
+    state: present
+  when: nextcloud_state == "present"
+
+- name: Provision postgresql db server
+  kubernetes.core.k8s:
+    state: present
+    namespace: "{{ nextcloud_name }}"
+    template: 'nextcloud.dbserver.j2'
+  when: nextcloud_state == "present"
+
+- name: Provision pvc for nextcloud
+  kubernetes.core.k8s:
+    state: present
+    namespace: "{{ nextcloud_name }}"
+    template: 'nextcloud.pvc.j2'
+  when: nextcloud_state == "present"
+
+- name: Add helm repository
+  kubernetes.core.helm_repository:
+    name: nextcloud
+    url: https://nextcloud.github.io/helm/
+    repo_state: "{{ nextcloud_state }}"
+
+- name: Create values file for nextcloud
+  template:
+    src: "nextcloud.values.j2"
+    dest: "/tmp/nextcloud.values.yml"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install nextcloud
+  kubernetes.core.helm:
+    name: "{{ nextcloud_name }}"
+    chart_ref: nextcloud/nextcloud
+    namespace: "{{ nextcloud_name }}"
+    values_files:
+      - /tmp/nextcloud.values.yml
+    state: "{{ nextcloud_state }}"  
+
+- name: (Cleanup) Deprovision postgresql db server
+  kubernetes.core.k8s:
+    state: absent
+    namespace: "{{ nextcloud_name }}"
+    template: 'nextcloud.dbserver.j2'
+  when: nextcloud_state == "absent"
+
+- name: (Cleanup) Remove pvc for nextcloud
+  kubernetes.core.k8s:
+    state: absent
+    namespace: "{{ nextcloud_name }}"
+    template: 'nextcloud.pvc.j2'
+  when: nextcloud_state == "absent"
+
+- name: Create a k8s namespace
+  kubernetes.core.k8s:
+    name: "{{ nextcloud_name }}"
+    api_version: v1
+    kind: Namespace
+    state: absent
+  when: nextcloud_state == "absent"  
+
+# With reclaim policy Retain, all data is retained in the NFS server
+# for database and the app
+

@@ -169,40 +169,7 @@ ansible-playbook site_k3s_control_nodes.yml -i ./inventory/hosts.ini
 
 # Undo
 ansible-playbook site_k3s_control_nodes.yml -i ./inventory/hosts.ini -e "k3s_cn_state=absent"
-
 ```
-
-
-## K3 Control Nodes Variables:
-K3s Server
-- apiserver_endpoint:
-  - VIP based virtual ip address to use for api_server
-- server_init_args:
-  - Used for bootstrapping k2s service
-  - https://github.com/k3s-io/k3s/discussions/3429
-  - https://docs.k3s.io/cli/server
-- extra_server_args
-  - extra args
-  - Exclude workloads from being scheduled in control nodes with node taints - --node-taint node-role.kubernetes.io/master=true:NoSchedule
-  - tls-san api sever ip
-  - disable servicelb and traefik
-- extra_args
-  - Flannel interface
-  - Node ip
-- log_destination
-  - Set this variable to store initialization logs
-- systemd_dir
-  - This is where services will be installed and configured
-- retry_count
-  - Used to verify all control nodes have joined the cluster
-
-Metallb
-- metal_lb_type:
-  - native - for ipv4 frr for ipv6 support
-- metal_lb_mode:
-  - layer2 - post k3s tasks
-- https://github.com/metallb/metallb
-- https://metallb.universe.tf/installation/
 
 # Configure K3s Data Plane
 - Create service for k3s-node
